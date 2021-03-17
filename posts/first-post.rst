@@ -8,3 +8,5 @@
 .. type: text
 
 I'm going to use this as an introduction/explanation of what I want this to be. I do a lot of small projects, (Raspberry pi, arduino, etc) so I wanted to be able to share those (and provide documentation for myself).
+
+testing git hook
