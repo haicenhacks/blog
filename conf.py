@@ -143,6 +143,7 @@ NAVIGATION_LINKS = {
         ("/archive.html", "Archive"),
         ("/categories/", "Tags"),
         ("/rss.xml", "RSS feed"),
+        ("/pages/about-me", "About Me")
         #("https://haicen.me/covid19/covid.html", "Covid-19 dashboard"),
     ),
 }
