@@ -22,3 +22,6 @@ Here is a short list of my hobbies:
 .. raw:: html
 
   <a href="https://twitter.com/haicenhacks?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @haicenhacks</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+If you appreciate my work and would like to contribute, you can make a donation here: https://ko-fi.com/haicen
