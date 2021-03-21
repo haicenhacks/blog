@@ -4,7 +4,7 @@
 .. tags: hacking, IoT
 .. category:
 .. link:
-.. description: DVR, security camera, CCTV, closed circuit camera monitoring, hacking, IoT, embedded devices,
+.. description:
 .. type: text
 
 FYI, this is a rewrite of some work I did in 2016 and was previously hosted on my old blogspot account. In doing research for the rewrite, I found that several people had done largely similar work, but I have identified some new information, particularly the ability to **format the disk drive by sending a post request**.
