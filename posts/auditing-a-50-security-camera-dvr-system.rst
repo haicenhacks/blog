@@ -6,9 +6,8 @@
 .. link:
 .. description: DVR, security camera, CCTV, closed circuit camera monitoring, hacking, IoT, embedded devices,
 .. type: text
-.. status: draft
 
-FYI, this is a rewrite of an audit I did in 2016 and was previously hosted on my old blogspot account. In doing research for the rewrite, I found that someone had done largely similar work, but I have identified some new information that may be of interest.
+FYI, this is a rewrite of some work I did in 2016 and was previously hosted on my old blogspot account. In doing research for the rewrite, I found that several people had done largely similar work, but I have identified some new information, particularly the ability to **format the disk drive by sending a post request**.
 
 Introduction
 ============
@@ -20,7 +19,7 @@ On a whim, I ordered one of these devices (it was on sale at Newegg for $50). Th
 Project Scope
 =============
 
-The goal is to emulate an attacker could disable or delete recordings with no knowledge of the system (i.e. no physical access to the device or model numbers), with the assumption of already being on the same network as the device. If that isn't successful, the scope will be revised to assume that the model number and manufacturer is known.
+The goal is to emulate an attacker could disable or delete recordings with no knowledge of the system (i.e. no physical access to the device or model numbers), with the assumption that the attacker is already on the same network as the device. If that isn't successful, the scope will be revised to assume attacker knows the model number of the device.
 
 .. TEASER_END
 
@@ -47,7 +46,7 @@ After locating the IP address, a further nmap scan of the host reveals the follo
 - Port 23 is a telnet interface. This is probably useful, but at this stage I don't know the password.
 - Port 80 is http, so I opened the page. It was a simple login form with no details about what sort of device (model number, manufacturer, or other identifying information).
 - Port 554 is for RTSP video. This is an unauthenticated live view of the cameras. The URL that makes this possible is rtsp://192.168.1.10:554/h264?ch=1&subtype=1, where ch=1 selects which channel. I'm not sure what the subtype parameter might do, but it only seems to work if it is set to 1.
-- Port 8000 doesn't seem to actually do anything. Opening it in a web browser and netcat, both yield nothing. There is no response from the device. I believe this is the port that is targeted by the mobile app (that I was too sketched out to install)
+- Port 8000 doesn't seem to actually do anything. Opening it in a web browser and netcat, both yield nothing. There is no response from the device. I believe this is the port that is used by the mobile app (that I was too sketched out to install)
 - Port 49152 has some UPnP information, nothing relevant as far as I can tell.
 
 
@@ -55,7 +54,7 @@ After locating the IP address, a further nmap scan of the host reveals the follo
 The Web App
 ------------
 
-The web interface is pretty simple. The page itself is a java server page. The login box is processed by some javascript and posted to a page called "pro_login.do". Attempting to brute force passwords through either the main login page or by posting data directly to "pro_login.do" will cause the username to be locked out for some period of time. Further investigation of the javascript indicates that the login information is stored in a cookie along with a session id. This would be exploitable if I can sniff credentials from an open wifi network by using wireshark and a wifi adapter that supports monitor mode.
+The web interface is pretty simple. The page itself is a java server page. The login box is processed by some javascript and posted to a page called "pro_login.do". Attempting to brute force passwords through either the main login page or by posting data directly to "pro_login.do" will cause the username to be locked out for some period of time. The login page will also alert if the username does not exist (which would allow some enumeration of the device users). Further investigation of the javascript indicates that the login information is stored in a cookie along with a session id. This would be exploitable if I can sniff credentials from an open wifi network by using wireshark and a wifi adapter that supports monitor mode.
 
 .. image:: /images/dvr_audit/web_login.png
   :align: center
@@ -141,12 +140,35 @@ Since deleting the recordings directly isn't possible, the next step was to look
 - default
 - test
 
-The first three users are enabled by default. Comparing that to the file that is accessible via telnet, there is an extra user called `genius` with a password hash of ``OzYqRThN``. This can be cracked using john, and the result is ``Q5M2Zk`` (note that this user has full admin access).
+The first three users are enabled by default. Comparing that to the file that is accessible via telnet, there is an extra user called `genius` with a password hash of ``OzYqRThN``. The passwords for the web interface are hashed using the "dahua" algorithm. Dahua is/was a manufacturer/brand name of similar devices. This can be cracked using john, and the result is ``Q5M2Zk`` (note that this user has full admin access).
 
 .. image:: /images/dvr_audit/user_list.jpg
   :align: center
 
 ----
+
+In order to crack these hashes using john, the hash format needs to be altered slightly. The original file looks like this:
+
+::
+
+  1:admin:nTBCS19C:1:<permissions>:123456:1
+  2:user:d2gNs1nj:2:<permissions>:1234:0
+  3:default:1cDuLJ7c:2:<permissions>:default account:0
+  4:genius:OzYqRThN:1:<permissions>:Q5M2Zk:1
+  8:test:Qw23AbMB:1:<permissions>:0
+
+The format is ``id, username, password hash, group, <permissions>, memo, <unkownn>``. I'm not sure what the last field indicates.
+
+John requires the hash file to look like this:
+
+::
+
+  $dahua$nTBCS19C
+  $dahua$d2gNs1nj
+  $dahua$1cDuLJ7c
+  $dahua$OzYqRThN
+  $dahua$Qw23AbMB
+
 
 The default password for the admin user is ``123456``. These can be found in the user manual. Admin level privileges is needed to make any changes. Other users can view recordings.
 
@@ -237,6 +259,11 @@ The ones that I tested that worked are CHANNEL, EMAIL, NAS, GROUP, and USER. The
 
 I may try to tweak the existing metasploit module and see if I can get the reset function to work.
 
+The Local Interface
+===================
+
+There isn't much to report on the local interface. The only significant finding is that the passwords for users are limited to 6 characters. I believe this may be an artifact of the underlying hash algorithm.   It is a rather clunky system where the only way to input text is though an on screen keyboard, so passwors are likely to be lowercase if not just numeric.
+
 Summary of vulnerabilities
 ==========================
 
@@ -251,12 +278,29 @@ There are multiple, low skill vulnerabilities in the device.
 
     - can erase all footage from the device by making a POST request by simply guessing the session id
 
+  - passwords have max length of 6
+
+- No authentication
+  - metasploit module can retrieve password hashes and other configuration details (smtp password, ftp password)
+
 - Hard coded credentials
 
   - telnet password is easily cracked, and is the same on all devices
-  - ``genius`` web user that is not listed in the local user admin interface
+  - ``genius`` web user that is not listed in the local user admin interface, but has full system access
 
 - Users likely unaware telnet is enabled
+
+
+
+Mitigations
+===========
+
+- Don't connect it to the internet
+  - If it must be connected to the internet, put it behind a VPN.
+  - Segregate it from the guest network
+
+- Change the telnet password
+- manually edit ``/opt/sav/Config/passwd`` to remove the ``genius`` user
 
 Citations
 =========
