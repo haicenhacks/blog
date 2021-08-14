@@ -92,7 +92,7 @@ Running the command again with a different card type shows an EM410x card
 
 ----
 
-Because basic HID and EM410 cards do not employ no cryptographic protection, all that is needed to clone them is a single scan.
+Because basic HID and EM410 cards do not employ any cryptographic protection, all that is needed to clone them is a single scan.
 Most techniques for obtaing the card to scan are done using social engineering or other means.
 This was shown on Mr. Robot Season 1 Episode 5.
 On some HID cards, the card number is printed on the back of the card.
