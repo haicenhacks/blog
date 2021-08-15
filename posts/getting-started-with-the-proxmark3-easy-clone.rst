@@ -32,7 +32,7 @@ One issue is that the USB port on the long side of the device does not seem to w
 I didn't take any notes nor do I remember the exact process I followed, but I think it was pretty straight forward once it was actually speaking with my computer.
 I'm assuming that is for powering the device with something that can deliver more current than a standard USB port.
 
-.. image:: /images/rfid_getting_started/device.jpeg
+.. image:: /images/rfid_getting_started/device_edited.jpg
 
 ----
 
