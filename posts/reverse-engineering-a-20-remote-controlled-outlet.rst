@@ -300,6 +300,9 @@ Unfortunately, I had a lot of trouble getting consistent results with my setup.
 If I didn't already know what I was looking for, I never would have gotten any meaningful results from URH.
 I don't blame the software, I either don't have good data to feed it or have some sort of setting wrong.
 
+Lastly, another piece of software `rtl_433 <https://github.com/merbanan/rtl_433>`_ is a nifty tool to decode a lot of common consumer devices.
+Often, there is an additional application layer on top of the data recovered from the wireless signal (ex: how the temperature is encoded in binary, other payload positions, etc).
+
 References
 ==========
 
