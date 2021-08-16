@@ -52,15 +52,15 @@ Well, it is simple.
 There are plenty of devices that operate on the ISM band that have no security controls.
 These radios are in everything from
 
-  * Garage door openers
-  * Home security systems
-  * Car remotes
-  * Weather stations
-  * Restaurant pagers
+* Garage door openers
+* Home security systems
+* Car remotes
+* Weather stations
+* Restaurant pagers
 
 Most of the functionality is undocumented.
 Some devices are more secure than others.
-
+For example, can additional functionality be gained by sending modified data packets, or is sensitive data leaked though these unsecured communications?
 
 The wireless outlet
 ===================
