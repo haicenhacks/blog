@@ -103,6 +103,8 @@ Finally, ``communicate()`` gets the output from the shell that was spawned to ru
 
 To state the obvious, is very bad.
 
+Another useful template value to test is ``{{config.items()}}``, which will reveal the secret key used to sign Flask cookies.
+
 Root cause analysis
 ===================
 
