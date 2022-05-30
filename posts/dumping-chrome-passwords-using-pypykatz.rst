@@ -28,14 +28,6 @@ Google Chrome stores saved passwords in 2 locations:
 
 ``AppData/Local/Google/Chrome/User Data/Default/Login Data` or `AppData/Local/Google/Chrome/User Data/<profile name>/Login Data``
 
-aaa
-
-
-preformatted::
-
-  <img src=1 onerror=print()<!--
-  <img src=1 onerror=al\u0065rt(1)<!--
-
 
 I didn't see evidence of any other profiles, so I started looking in Default.
 Open the 'Login Data' file with sqlite
