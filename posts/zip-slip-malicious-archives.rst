@@ -1,7 +1,7 @@
 .. title: Zip Slip (malicious archives)
 .. slug: zip-slip-malicious-archives
 .. date: 2021-12-04 17:41:43 UTC-05:00
-.. tags:
+.. tags: hacking, flask, zipslip, ctf, python, evilarc
 .. category: hacking, ctf writeup
 .. link:
 .. description:
