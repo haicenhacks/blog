@@ -231,6 +231,9 @@ Then start Bloodhound.
 I marked Hope, Edgar, and Sierra as owned users, then ran the "shortest path to Domain Admins" query".
 Since I have Sierra's credentials, the path is this: ``sierra.frye -> ITSEC@search.htb -> BIR-ADFS-GMSA@search.htb -> tristan.davies -> Domain Admin``
 
+.. image:: /images/htb-search/bloodhound_path_to_admin.png
+
+
 Since Sierra has the read GMSA password permission, I can dump the GSMA password.
 
 ::
