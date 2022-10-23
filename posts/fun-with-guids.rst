@@ -8,9 +8,11 @@
 .. type: text
 
 Recently, Intigrity (https://twitter.com/intigriti) posted a challenge on Twitter.
-I found this challenge to be pretty interesting, as I had not really heard of any issues regarding GUIDs (Global Unique IDentifier), sometimes also listed as UUID (Universally unique identifier)
+I found this challenge to be pretty interesting, as I had not really heard of any issues regarding GUIDs (Global Unique IDentifier), sometimes also listed as UUID (Universally unique identifier).
 These are all what I had previously assumed were essentially random and non-predictable.
 Unfortunately, some versions of the UUID are not so random, at least for UUIDv1.
+
+.. figure:: /images/fun-with-guids/homepage.png
 
 The rest of the post continues after the break.
 
