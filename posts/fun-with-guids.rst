@@ -77,6 +77,7 @@ The Challenge
 
 Now, back to the challenge.
 I modified the original script to make the viewing of transactions created by the non-admin user visible.
+The challenge code is available on Github https://github.com/haicenhacks/HaicenSecureBank
 Follow the build instructions to make the app, then visit http://localhost:3000 to interact.
 
 .. figure:: /images/fun-with-guids/homepage.png
