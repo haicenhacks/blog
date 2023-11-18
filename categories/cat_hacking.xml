@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>haicen.me (Posts about hacking)</title><link>https://blog.haicen.me/</link><description></description><atom:link href="https://blog.haicen.me/categories/cat_hacking.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:haicenhack@protonmail.com"&gt;Haicen&lt;/a&gt; </copyright><lastBuildDate>Sat, 18 Nov 2023 13:13:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Fun with GUID's</title><link>https://blog.haicen.me/posts/fun-with-guids/</link><dc:creator>Haicen</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, Intigrity (&lt;a class="reference external" href="https://twitter.com/intigriti"&gt;https://twitter.com/intigriti&lt;/a&gt;) posted a challenge on Twitter.
+I found this challenge to be pretty interesting, as I had not really heard of any issues regarding GUIDs (Global Unique IDentifier), sometimes also listed as UUID (Universally unique identifier).
+These are all what I had previously assumed were essentially random and non-predictable.
+Unfortunately, some versions of the UUID are not so random, at least for UUIDv1.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img alt="/images/fun-with-guids/homepage.png" src="https://blog.haicen.me/images/fun-with-guids/homepage.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;The rest of the post continues after the break.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.haicen.me/posts/fun-with-guids/"&gt;Read more…&lt;/a&gt; (6 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>guid</category><category>node.js</category><category>web</category><category>zap</category><guid>https://blog.haicen.me/posts/fun-with-guids/</guid><pubDate>Sat, 22 Oct 2022 02:42:13 GMT</pubDate></item><item><title>Configuring custom headers for OWASP ZAP</title><link>https://blog.haicen.me/posts/configuring-custom-headers-for-owasp-zap/</link><dc:creator>Haicen</dc:creator><description>&lt;div&gt;&lt;p&gt;I've been trying some bugbounty programs recently.
+I often alternate between using BurpSuite and ZAP.
+Many programs want you to add a custom header to your requests so the traffic can be identified, and in some cases, bypass some roadblocks.
+In this post, I'll show how to configure ZAP to add the custom header.&lt;/p&gt;
+&lt;img alt="/images/zap-header/teaser.png" src="https://blog.haicen.me/images/zap-header/teaser.png"&gt;
+&lt;p&gt;&lt;a href="https://blog.haicen.me/posts/configuring-custom-headers-for-owasp-zap/"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>hacking</category><category>tutorial</category><guid>https://blog.haicen.me/posts/configuring-custom-headers-for-owasp-zap/</guid><pubDate>Sat, 18 Jun 2022 12:47:43 GMT</pubDate></item><item><title>XSS and SSTI in Flask</title><link>https://blog.haicen.me/posts/xss-ssti-in-flask/</link><dc:creator>Haicen</dc:creator><description>&lt;section id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;According to the project's home page,&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications. It began as a simple wrapper around Werkzeug and Jinja and has become one of the most popular Python web application frameworks.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Django sits at the other end of the python web service spectrum.
+Each has their own advantages and disadvantages.
+If I had to pick a downside for Flask, it is that can be easy to introduce unintentional vulnerabilities.
+This is &lt;strong&gt;not&lt;/strong&gt; a problem with Flask itself, but is a result of improper sanitizing of user input.&lt;/p&gt;
+&lt;p&gt;This blog post will explore two vulnerabilities in an intentionally vulnerable flask app.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.haicen.me/posts/xss-ssti-in-flask/"&gt;Read more…&lt;/a&gt; (5 min remaining to read)&lt;/p&gt;&lt;/section&gt;</description><guid>https://blog.haicen.me/posts/xss-ssti-in-flask/</guid><pubDate>Wed, 16 Feb 2022 02:40:41 GMT</pubDate></item></channel></rss>

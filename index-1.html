@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Haicen's personal website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>haicen.me (old posts, page 1) | haicen.me</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/index-1.html">
+<link rel="prev" href="." type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="archive.html">Archive</a>
+                </li>
+<li>
+<a href="categories/">Tags</a>
+                </li>
+<li>
+<a href="rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+    
+
+
+    
+<div class="postindex">
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/getting-started-with-the-proxmark3-easy-clone/" class="u-url">Getting started with the proxmark3 easy clone</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/getting-started-with-the-proxmark3-easy-clone/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-27T09:08:06-04:00" itemprop="datePublished" title="2021-03-27 09:08">2021-03-27 09:08</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <section id="introduction"><h2>Introduction</h2>
+<p>I've been interested in RFID hacking for a really long time.
+The "gold standard" has been the proxmark series of tools.
+Unfortunately, these are quite expensive, especially for a hobbyist.
+However, thanks to the internet and the usual sources, there are pre-assembled versions available for under $100.</p>
+<p>In this post, I'll share a quick tutorial on how to clone an access control card to a rewriteable card.</p>
+<p class="more"><a href="posts/getting-started-with-the-proxmark3-easy-clone/">Read more…</a></p></section>
+</div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/auditing-a-security-camera-dvr-system/" class="u-url">Auditing a $50 Security Camera DVR System</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/auditing-a-security-camera-dvr-system/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-19T11:21:26-04:00" itemprop="datePublished" title="2021-03-19 11:21">2021-03-19 11:21</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>FYI, this is a rewrite of some work I did in 2016 and was previously hosted on my old blogspot account. In doing research for the rewrite, I found that several people had done largely similar work, but I have identified some new information, particularly the ability to <strong>format the disk drive by sending a post request</strong>.</p>
+<section id="introduction"><h2>Introduction</h2>
+<p>Before the Internet of Things (IoT) took over, homes and businesses were watched by closed circuit cameras, and some did have LAN and WAN remote viewing. The WAN connection was not through a cloud system, but rather a direct connection to the IP address of the device. Unfortunately, given the price point of these devices, a lot of security corners were cut.</p>
+<p>On a whim, I ordered one of these devices (it was on sale at Newegg for $50). The specific device was from <a class="reference external" href="https://www.newegg.com/shieldeye-rscm-0704b042-4-channel-kit-solution/p/N82E16881147043?Item=N82E16881147043">Newegg</a>, (<a class="reference external" href="https://web.archive.org/web/20210319155009/https://www.newegg.com/shieldeye-rscm-0704b042-4-channel-kit-solution/p/N82E16881147043?Item=N82E16881147043">Archive.org backup</a>). It had a lot of neat features (night vision, motion detection based recording, 720p resolution), but I mostly bought it because I wanted to see just how bad the security was.</p>
+</section><section id="project-scope"><h2>Project Scope</h2>
+<p>The goal is to emulate an attacker could disable or delete recordings with no knowledge of the system (i.e. no physical access to the device or model numbers), with the assumption that the attacker is already on the same network as the device. If that isn't successful, the scope will be revised to assume attacker knows the model number of the device.</p>
+<p class="more"><a href="posts/auditing-a-security-camera-dvr-system/">Read more…</a></p></section>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/indoor-air-quality-monitor/" class="u-url">An indoor air quality monitor using particle.io</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/indoor-air-quality-monitor/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-17T21:31:07-04:00" itemprop="datePublished" title="2021-03-17 21:31">2021-03-17 21:31</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>In this post, I'll discuss some hardware and a new build platform that I used to create an indoor/outdoor air quality monitor. This will be a multi-part post because it has several separate pieces of infrastructure.</p>
+<p>In the late summer of 2020, wildfires were burning in Oregon. I saw lots of posts on twitter and other social media outlets of people constructing air filters out of box fans and household HVAC filters. I live on the East Coast, so I was not impacted, but I was curious about what the particulate matter content was inside/outside my home.</p>
+<p class="more"><a href="posts/indoor-air-quality-monitor/">Read more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/first-post/" class="u-url">Welcome to my blog</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="posts/first-post/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-17T13:00:09-04:00" itemprop="datePublished" title="2021-03-17 13:00">2021-03-17 13:00</time></a>
+            </p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <p>I'm going to use this as an introduction/explanation of what I want this to be. I do a lot of small projects, (Raspberry pi, arduino, etc) so I wanted to be able to share those (and provide documentation for myself).</p>
+<p>Here is a short list of my hobbies:</p>
+<ul class="simple">
+<li><p>cybersecurity</p></li>
+<li><p>lock picking</p></li>
+<li><p>model trains</p></li>
+<li><p>arduino</p></li>
+<li><p>raspberry pi</p></li>
+<li><p>ham radio</p></li>
+</ul>
+</div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="." rel="prev">Newer posts</a>
+            </li>
+        </ul></nav>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

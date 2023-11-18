@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auditing a $50 Security Camera DVR System | haicen.me</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/posts/auditing-a-security-camera-dvr-system/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Haicen">
+<link rel="prev" href="../indoor-air-quality-monitor/" title="An indoor air quality monitor using particle.io" type="text/html">
+<link rel="next" href="../getting-started-with-the-proxmark3-easy-clone/" title="Getting started with the proxmark3 easy clone" type="text/html">
+<meta property="og:site_name" content="haicen.me">
+<meta property="og:title" content="Auditing a $50 Security Camera DVR System">
+<meta property="og:url" content="https://blog.haicen.me/posts/auditing-a-security-camera-dvr-system/">
+<meta property="og:description" content="FYI, this is a rewrite of some work I did in 2016 and was previously hosted on my old blogspot account. In doing research for the rewrite, I found that several people had done largely similar work, bu">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-03-19T11:21:26-04:00">
+<meta property="article:tag" content="hacking">
+<meta property="article:tag" content="IoT">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="../../pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Auditing a $50 Security Camera DVR System</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-19T11:21:26-04:00" itemprop="datePublished" title="2021-03-19 11:21">2021-03-19 11:21</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>FYI, this is a rewrite of some work I did in 2016 and was previously hosted on my old blogspot account. In doing research for the rewrite, I found that several people had done largely similar work, but I have identified some new information, particularly the ability to <strong>format the disk drive by sending a post request</strong>.</p>
+<section id="introduction"><h2>Introduction</h2>
+<p>Before the Internet of Things (IoT) took over, homes and businesses were watched by closed circuit cameras, and some did have LAN and WAN remote viewing. The WAN connection was not through a cloud system, but rather a direct connection to the IP address of the device. Unfortunately, given the price point of these devices, a lot of security corners were cut.</p>
+<p>On a whim, I ordered one of these devices (it was on sale at Newegg for $50). The specific device was from <a class="reference external" href="https://www.newegg.com/shieldeye-rscm-0704b042-4-channel-kit-solution/p/N82E16881147043?Item=N82E16881147043">Newegg</a>, (<a class="reference external" href="https://web.archive.org/web/20210319155009/https://www.newegg.com/shieldeye-rscm-0704b042-4-channel-kit-solution/p/N82E16881147043?Item=N82E16881147043">Archive.org backup</a>). It had a lot of neat features (night vision, motion detection based recording, 720p resolution), but I mostly bought it because I wanted to see just how bad the security was.</p>
+</section><section id="project-scope"><h2>Project Scope</h2>
+<p>The goal is to emulate an attacker could disable or delete recordings with no knowledge of the system (i.e. no physical access to the device or model numbers), with the assumption that the attacker is already on the same network as the device. If that isn't successful, the scope will be revised to assume attacker knows the model number of the device.</p>
+<!-- TEASER_END -->
+</section><section id="previous-work"><h2>Previous work</h2>
+<p>I am not the first person to look at these devices, however I haven't seen any work on this specific model. While doing research for the rewrite, I found several pages and blogs about this topic (including a metasploit module). What first got me interested in this topic was a presentation at Blackhat <a class="footnote-reference brackets" href="#footnote-1" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+</section><section id="recon"><h2>Recon</h2>
+<p>The first step is an nmap scan of the network to locate the DVR.</p>
+<p>After locating the IP address, a further nmap scan of the host reveals the following ports are open and listening</p>
+<p><code class="docutils literal">nmap <span class="pre">-sS</span> 192.168.1.10</code></p>
+<img alt="/images/dvr_audit/nmap_scan.png" src="../../images/dvr_audit/nmap_scan.png"><hr class="docutils">
+<ul class="simple">
+<li><p>Port 23 is a telnet interface. This is probably useful, but at this stage I don't know the password.</p></li>
+<li><p>Port 80 is http, so I opened the page. It was a simple login form with no details about what sort of device (model number, manufacturer, or other identifying information).</p></li>
+<li><p>Port 554 is for RTSP video. This is an unauthenticated live view of the cameras. The URL that makes this possible is <a class="reference external" href="rtsp://192.168.1.10:554/h264?ch=1&amp;subtype=1">rtsp://192.168.1.10:554/h264?ch=1&amp;subtype=1</a>, where ch=1 selects which channel. I'm not sure what the subtype parameter might do, but it only seems to work if it is set to 1.</p></li>
+<li><p>Port 8000 doesn't seem to actually do anything. Opening it in a web browser and netcat, both yield nothing. There is no response from the device. I believe this is the port that is used by the mobile app (that I was too sketched out to install)</p></li>
+<li><p>Port 49152 has some UPnP information, nothing relevant as far as I can tell.</p></li>
+</ul>
+<section id="the-web-app"><h3>The Web App</h3>
+<p>The web interface is pretty simple. The page itself is a java server page. The login box is processed by some javascript and posted to a page called "pro_login.do". Attempting to brute force passwords through either the main login page or by posting data directly to "pro_login.do" will cause the username to be locked out for some period of time. The login page will also alert if the username does not exist (which would allow some enumeration of the device users). Further investigation of the javascript indicates that the login information is stored in a cookie along with a session id. This would be exploitable if I can sniff credentials from an open wifi network by using wireshark and a wifi adapter that supports monitor mode.</p>
+<img alt="/images/dvr_audit/web_login.png" class="align-center" src="../../images/dvr_audit/web_login.png"><hr class="docutils">
+<p>The login page is actually <a class="reference external" href="http://192.168.1.10/new/index.jsp">http://192.168.1.10/new/index.jsp</a>, which is an interesting URL. There is indeed a /old/index.htm file, but it tries to load some ActiveX control. The underlying logic points to the same "pro-login.do" endpoint, so I didn't spend any further time on this for now.</p>
+<p>There are a few other directories that are accessible, most notably /admin, but every link on the page returns a 404.</p>
+<p>Unfortunately, without any more information, there isn't much that can be done. I could try default credentials on the web app, or try brute forcing the password on the telnet login (but this could be quite time consuming with no guarantee of success in a reasonable time).</p>
+<p>At this point, I decided to modify the scope slightly to be able to proceed further. On the bottom of the cameras themselves is a sticker with a model number. The model number is RSCM-0700B011 and was enough to identify the retailer's page for the DVR system. That can lead to more specific information about the device.</p>
+</section></section><section id="further-recon"><h2>Further Recon</h2>
+<p>Now that the DVR system model is known, the next step is to see if the manufacturer has any firmware available to download. This was the case in 2016 when I was doing the initial research and I was still able to find a version of the firmware still available in 2021 <a class="footnote-reference brackets" href="#footnote-5" id="footnote-reference-2" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>.</p>
+<p>The firmware was downloaded and then extracted using binwalk. It was a standard cramfs file system, with multiple cramfs images inside. These images are actually uboot images, so they can be mounted by first stripping 64 bytes using <code class="docutils literal">dd</code> <a class="footnote-reference brackets" href="#footnote-3" id="footnote-reference-3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+<blockquote>
+<p><code class="docutils literal">dd bs=1 skip=64 <span class="pre">if=romfs-x.cramfs.img</span> of=rom2.img</code></p>
+</blockquote>
+<p>Unpacking firmware is a common technique for embedded devices <a class="footnote-reference brackets" href="#footnote-6" id="footnote-reference-4" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#footnote-7" id="footnote-reference-5" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#footnote-8" id="footnote-reference-6" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>.</p>
+<p>Looking at <code class="docutils literal">/etc/passwd</code> shows only one hash, <code class="docutils literal"><span class="pre">root:$1$$64lU4r1qa6icjzK/sBmQo.:0:0::/root:/bin/sh</span></code></p>
+<p>I tried with the standard password lists (rockyou.txt, etc), and nothing worked, so my assumption is that it was chosen at random. I ran John for a few hours with no success. I did a web search for that string and it was found on some Russian password cracking forum (no longer accessible, but this is how I did it originally). Since it was included in the firmware, this is likely the password on every device. Given the performance power of modern GPU's, this is a trivial hash to crack (md5crypt)</p>
+<p>The password for the hash is "zlxx." - only 5 characters, all lowercase, one special character. That was indeed the correct password because I am greeted by a root shell.</p>
+<img alt="/images/dvr_audit/telnet_login.png" class="align-center" src="../../images/dvr_audit/telnet_login.png"><hr class="docutils">
+<img alt="/images/dvr_audit/hackerman.gif" class="align-center" src="../../images/dvr_audit/hackerman.gif"></section><section id="the-telnet-interface"><h2>The telnet interface</h2>
+<p>The telnet interface is not mentioned in any of the product literature or manuals, nor is there any reference to this being enabled in the local interface. This is problematic because the only layer of protection would be the router's firewall.</p>
+<p>The DVR system is a bit of a labyrinth of files. Below is a list of interesting file locations:</p>
+<ul>
+<li><p><code class="docutils literal">/etc/passwd</code> - the telnet password previously obtained</p></li>
+<li><p><code class="docutils literal">/etc/passwd-</code> - no idea what this is for. The hash contents is <code class="docutils literal"><span class="pre">root:ab8nBoH3mb8.g:0:0::/root:/bin/sh</span></code>, but that is easily cracked to "helpme". This does not work on the telnet prompt or the web app, so I'm not sure why it's function is.</p></li>
+<li><p><code class="docutils literal">/opt/sav/Config/passwd</code> - this is the file that gets modified when users are added, more on this below.</p></li>
+<li>
+<p><code class="docutils literal">/opt/sav/encrypt_info</code> The contents of this file is pretty bare, and makes me wonder if the recordings are encrypted in some way. contents shown below</p>
+<ul>
+<li>
+<pre class="literal-block">ethaddr e0:61:b2:14:93:fd
+product 4b27040000000000
+oem 000015</pre>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal">/sbin/poweroff</code> - this may be useful for disrupting the recording process</p></li>
+</ul>
+<p>Now that I have a root shell, I can poke around and try to accomplish the stated goal of disrupting video recordings. I started by seeing if I could access the hard drive directly. I did not have any success. The disk is /dev/sda, but it is not mounted. Most of the directories are read only. However, in the few directories that are writeable, I cannot mount the drive.</p>
+<img alt="/images/dvr_audit/fdisk.png" class="align-center" src="../../images/dvr_audit/fdisk.png"><hr class="docutils">
+<img alt="/images/dvr_audit/mount.png" class="align-center" src="../../images/dvr_audit/mount.png"><hr class="docutils">
+<p>Since deleting the recordings directly isn't possible, the next step was to look at the <code class="docutils literal">/opt/sav/Config/passwd</code> file. This file holds the passwords for accessing the web interface and the local interface. These are hashed, but curiously there is one more user present in the file than shows up in the admin interface. Because the web interface requires ActiveX to run, and I can't get InternetExplorer to run the ActiveX controls under wine, some of the remaining screenshots have to be taken with a phone pointed at a screen. For comparison, the local interface shows 4 users:</p>
+<ul class="simple">
+<li><p>admin</p></li>
+<li><p>user</p></li>
+<li><p>default</p></li>
+<li><p>test</p></li>
+</ul>
+<p>The first three users are enabled by default. Comparing that to the file that is accessible via telnet, there is an extra user called <cite>genius</cite> with a password hash of <code class="docutils literal">OzYqRThN</code>. The passwords for the web interface are hashed using the "dahua" algorithm. Dahua is/was a manufacturer/brand name of similar devices. This can be cracked using john, and the result is <code class="docutils literal">Q5M2Zk</code> (note that this user has full admin access).</p>
+<img alt="/images/dvr_audit/user_list.jpg" class="align-center" src="../../images/dvr_audit/user_list.jpg"><hr class="docutils">
+<p>In order to crack these hashes using john, the hash format needs to be altered slightly. The original file looks like this:</p>
+<pre class="literal-block">1:admin:nTBCS19C:1:&lt;permissions&gt;:123456:1
+2:user:d2gNs1nj:2:&lt;permissions&gt;:1234:0
+3:default:1cDuLJ7c:2:&lt;permissions&gt;:default account:0
+4:genius:OzYqRThN:1:&lt;permissions&gt;:Q5M2Zk:1
+8:test:Qw23AbMB:1:&lt;permissions&gt;:0</pre>
+<p>The format is <code class="docutils literal">id, username, password hash, group, &lt;permissions&gt;, memo, &lt;unkownn&gt;</code>. I'm not sure what the last field indicates.</p>
+<p>John requires the hash file to look like this:</p>
+<pre class="literal-block">$dahua$nTBCS19C
+$dahua$d2gNs1nj
+$dahua$1cDuLJ7c
+$dahua$OzYqRThN
+$dahua$Qw23AbMB</pre>
+<p>The default password for the admin user is <code class="docutils literal">123456</code>. These can be found in the user manual. Admin level privileges is needed to make any changes. Other users can view recordings.</p>
+<p>It is possible to modify this file. I previously wrote a hash generator so it is easy to create your own password, change the admin password to something else, delete users, change permissions, and otherwise disrupt the end user of the device (<a class="reference external" href="https://github.com/haicen/DahuaHashCreator">https://github.com/haicen/DahuaHashCreator</a>). Through the local interface, the user can only change the password for themselves. The admin user cannot change the password of other users, nor can</p>
+<p>The <code class="docutils literal">/sbin/poweroff</code> is a symbolic link to busybox. Executing this command puts the device into a zombie-like state. The local interface will continue to show the live feed, but the menu is inaccessible, and <em>all recording stops</em>. The only way to get things running again is to power cycle the device.</p>
+<p>Without doing some reverse engineering of the underlying binaries, I didn't find anything else.</p>
+</section><section id="the-web-app-1"><h2>The web app</h2>
+<p>Using either the <code class="docutils literal">admin</code> or <code class="docutils literal">genius</code> passwords, I can now log in to the web interface. Unfortunately, neither the live view, nor any of the buttons work, because this seems to rely on components that aren't available or no longer work (ActiveX). The login information is indeed stored as a cookie and is posted as form data.</p>
+<img alt="/images/dvr_audit/http_post_data.png" src="../../images/dvr_audit/http_post_data.png"><p>Looking at the URL, there is a parameter called <code class="docutils literal">sid</code> with a numeric value. I assume this to mean session ID.</p>
+<p>A further review of the page source, particularly the <code class="docutils literal">commands.js</code> file, there are interesting function names.</p>
+<ul class="simple">
+<li><p><code class="docutils literal">pro_login</code> - this sends a post request to <cite>pro_login.do</cite> with the username and password (in clear text) and returns the session id.</p></li>
+<li><p><code class="docutils literal">pro_getEmailData</code> - the system also has the capability to send email alerts on motion detection, so if that is configured, this should provide those credentials, but instead it causes the system to crash.</p></li>
+<li><p><code class="docutils literal">pro_getFTPDataById</code> - similar idea as getEmailData, but again causes a crash</p></li>
+<li><p><code class="docutils literal">pro_addUser</code> - looks like it should add a user, but also causes a crash</p></li>
+<li><p><code class="docutils literal">pro_getCloudToken</code> - again, sounds interesting but causes a crash</p></li>
+<li><p><code class="docutils literal">pro_diskFormat</code> - this causes it to crash, but when it reboots, it does actually format the disk (maybe).</p></li>
+</ul>
+<section id="the-pro-login-endpoint"><h3>The pro_login endpoint</h3>
+<p>Code from <code class="docutils literal">command.js</code> is shown below</p>
+<pre class="literal-block">this.pro_login = function (__name, __password) {
+    http.setAsync(false);
+    return http.PostData("/pro_login.do", "{\"username\":\"" + __name + "\",\"password\":\"" + __password + "\"}", null);
+};</pre>
+<p>From that, I thought I could do <code class="docutils literal">curl <span class="pre">http://192.168.1.10/pro_login.do</span> <span class="pre">-d</span> <span class="pre">'{"username":</span> "admin", "password": <span class="pre">"123456"}'</span></code>. It did work, and I got the following response: <code class="docutils literal"><span class="pre">{"message":"Login</span> Is <span class="pre">Successful","sid":1}</span></code></p>
+<p>Just to recap, the username and password here could be found by logging into the device with telnet, or by sniffing open wifi networks because the device does not support https. If I happened to be on an open guest network with someone viewing or managing the device, I could grab the cookie that contains the username and password.</p>
+</section><section id="the-pro-diskformat-endpoint"><h3>The pro_diskFormat endpoint</h3>
+<p>The code for this endpoint is provided below. Of note, it only needs a valid session ID. It isn't really practical to try to brute force the sid, because each time the url is hit, it causes it to crash. For some reason, it does actually cause the disk to be formatted upon reboot. I'm not sure if it actually formats the disk, or if it just marks everything for deletion. I'm not really a reverse engineer, so I haven't been able to see what is actually happening in the binary.</p>
+<pre class="literal-block">this.pro_diskFormat = function(_id){
+    http.setAsync(false);
+    return http.PostData("/pro_diskFormat.do", "{\"sid\":"+this.getSessionId() +",\"id\":"+_id+"}", null);
+};</pre>
+<p>My test methodology was:</p>
+<ul class="simple">
+<li><p>Wave to the camera to trigger the motion recording</p></li>
+<li><p>Verified the recording was made and viewable</p></li>
+<li><p>Used the pro_login endpoint with curl to get a valid session id</p></li>
+<li><p>Used the pro_diskFormat endpoint with curl and the valid session id</p></li>
+<li><p>Logged in through telnet to reboot the device (easier than unplugging it)</p></li>
+<li><p>Logged in to the local interface and found no recordings exist</p></li>
+</ul>
+<pre class="literal-block">&gt; curl http://192.168.1.10/pro_login.do -d '{"username": "admin", "password": "123456"}'
+{"message":"Login Is Successful","sid":1}
+
+&gt; curl http://192.168.1.10/pro_diskFormat.do -d '{"sid": "1"}'
+curl: (52) Empty reply from server</pre>
+</section><section id="the-metasploit-module"><h3>The metasploit module</h3>
+<p>While not specific to this device, there is a metasploit module developed by Depth Security <a class="footnote-reference brackets" href="#footnote-2" id="footnote-reference-7" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, and there is a CVE 2013-6117 <a class="footnote-reference brackets" href="#footnote-4" id="footnote-reference-8" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>  issued for this particular exploit. I have confirmed that some functions do work, while others do not. The two that have the highest impact are the EMAIL and NAS actions. This is shown below, where the smtp username and password are visible.</p>
+<img alt="/images/dvr_audit/metasploit.png" class="align-center" src="../../images/dvr_audit/metasploit.png"><hr class="docutils">
+<p>The ones that I tested that worked are CHANNEL, EMAIL, NAS, GROUP, and USER. The email action does return the  This must use the underlying system, because the <code class="docutils literal">genius</code> user is not shown. Using the metasploit module is much less work than the other methods. There are plenty of these devices connected to the internet, and searchable on shodan <a class="reference external" href="https://www.shodan.io/search?query=%22IVSWeb%22">https://www.shodan.io/search?query=%22IVSWeb%22</a>, all of which are potentially have the same flaw.</p>
+<p>I may try to tweak the existing metasploit module and see if I can get the reset function to work.</p>
+</section></section><section id="the-local-interface"><h2>The Local Interface</h2>
+<p>There isn't much to report on the local interface. The only significant finding is that the passwords for users are limited to 6 characters. I believe this may be an artifact of the underlying hash algorithm.   It is a rather clunky system where the only way to input text is though an on screen keyboard, so passwors are likely to be lowercase if not just numeric.</p>
+</section><section id="summary-of-vulnerabilities"><h2>Summary of vulnerabilities</h2>
+<p>There are multiple, low skill vulnerabilities in the device.</p>
+<ul class="simple">
+<li>
+<p>Insecure authentication</p>
+<ul>
+<li><p>Live stream available via RTSP requires no authentication</p></li>
+<li><p>device only supports http</p></li>
+<li><p>credentials stored as a cookie</p></li>
+<li>
+<p>relies on an integer as a session id (always starts at 1).</p>
+<ul>
+<li><p>can erase all footage from the device by making a POST request by simply guessing the session id</p></li>
+</ul>
+</li>
+<li><p>passwords have max length of 6</p></li>
+</ul>
+</li>
+<li><p>No authentication
+- metasploit module can retrieve password hashes and other configuration details (smtp password, ftp password)</p></li>
+<li>
+<p>Hard coded credentials</p>
+<ul>
+<li><p>telnet password is easily cracked, and is the same on all devices</p></li>
+<li><p><code class="docutils literal">genius</code> web user that is not listed in the local user admin interface, but has full system access</p></li>
+</ul>
+</li>
+<li><p>Users likely unaware telnet is enabled</p></li>
+</ul></section><section id="mitigations"><h2>Mitigations</h2>
+<ul class="simple">
+<li><p>Don't connect it to the internet
+- If it must be connected to the internet, put it behind a VPN.
+- Segregate it from the guest network</p></li>
+<li><p>Change the telnet password</p></li>
+<li><p>manually edit <code class="docutils literal">/opt/sav/Config/passwd</code> to remove the <code class="docutils literal">genius</code> user</p></li>
+</ul></section><section id="citations"><h2>Citations</h2>
+<aside class="footnote-list brackets"><aside class="footnote brackets" id="footnote-1" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+<p>Craig Heffner via HackersOnBoard, “Black Hat 2013 - Exploiting Network Surveillance Cameras Like a Hollywood Hacker,” Nov. 19, 2013. <a class="reference external" href="https://www.youtube.com/watch?v=B8DjTcANBx0">https://www.youtube.com/watch?v=B8DjTcANBx0</a></p>
+</aside><aside class="footnote brackets" id="footnote-2" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-7">2</a><span class="fn-bracket">]</span></span>
+<p>Reynolds, Jake, “Dahua DVR Authentication Bypass - CVE-2013-6117.” <a class="reference external" href="https://depthsecurity.com/blog/dahua-dvr-authentication-bypass-cve-2013-6117">https://depthsecurity.com/blog/dahua-dvr-authentication-bypass-cve-2013-6117</a></p>
+</aside><aside class="footnote brackets" id="footnote-3" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-3">3</a><span class="fn-bracket">]</span></span>
+<p>“Hacking RAM disks,” Boundary Devices, Sep. 07, 2012. <a class="reference external" href="https://boundarydevices.com/hacking-ram-disks/">https://boundarydevices.com/hacking-ram-disks/</a></p>
+</aside><aside class="footnote brackets" id="footnote-4" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-8">4</a><span class="fn-bracket">]</span></span>
+<p>“NVD - CVE-2013-6117.” <a class="reference external" href="https://nvd.nist.gov/vuln/detail/CVE-2013-6117">https://nvd.nist.gov/vuln/detail/CVE-2013-6117</a></p>
+</aside><aside class="footnote brackets" id="footnote-5" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-2">5</a><span class="fn-bracket">]</span></span>
+<p>“ReaderDump RTS5301 VDD V18 11003 Zip,” Rosewill. <a class="reference external" href="https://www.rosewill.com/download/readerdump-rts5301-vdd-v18-11003-zip/">https://www.rosewill.com/download/readerdump-rts5301-vdd-v18-11003-zip/</a></p>
+</aside><aside class="footnote brackets" id="footnote-6" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-4">6</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="2">
+<li><p>Tamasi, “Reverse Engineering DVR firmware,” Medium, Apr. 23, 2020. <a class="reference external" href="https://medium.com/@halftome/reverse-engineering-dvr-firmware-e7fec42f2a88">https://medium.com/@halftome/reverse-engineering-dvr-firmware-e7fec42f2a88</a></p></li>
+</ol></aside><aside class="footnote brackets" id="footnote-7" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-5">7</a><span class="fn-bracket">]</span></span>
+<p>“Reverse Engineering Firmware Primer,” Security Weekly Wiki, Dec. 13, 2012. <a class="reference external" href="https://wiki.securityweekly.com/Reverse_Engineering_Firmware_Primer">https://wiki.securityweekly.com/Reverse_Engineering_Firmware_Primer</a></p>
+</aside><aside class="footnote brackets" id="footnote-8" role="doc-footnote"><span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-6">8</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="11">
+<li><p>Makan, “[Reverse Engineering Primer] Unpacking cramfs firmware file systems.” <a class="reference external" href="http://blog.k3170makan.com/2018/06/reverse-engineering-primer-unpacking.html">http://blog.k3170makan.com/2018/06/reverse-engineering-primer-unpacking.html</a></p></li>
+</ol></aside></aside></section>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/hacking/" rel="tag">hacking</a></li>
+            <li><a class="tag p-category" href="../../categories/iot/" rel="tag">IoT</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../indoor-air-quality-monitor/" rel="prev" title="An indoor air quality monitor using particle.io">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../getting-started-with-the-proxmark3-easy-clone/" rel="next" title="Getting started with the proxmark3 easy clone">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

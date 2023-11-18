@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reverse Engineering a $20 remote controlled outlet | haicen.me</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/posts/reverse-engineering-a-20-remote-controlled-outlet/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Haicen">
+<link rel="prev" href="../getting-started-with-the-proxmark3-easy-clone/" title="Getting started with the proxmark3 easy clone" type="text/html">
+<link rel="next" href="../zip-slip-malicious-archives/" title="Zip Slip (malicious archives)" type="text/html">
+<meta property="og:site_name" content="haicen.me">
+<meta property="og:title" content="Reverse Engineering a $20 remote controlled outlet">
+<meta property="og:url" content="https://blog.haicen.me/posts/reverse-engineering-a-20-remote-controlled-outlet/">
+<meta property="og:description" content="Introduction
+A few years ago, I bought a remote controlled outlet from Walmart.
+I don't recall the exact price, but it was less than $20.
+It was pretty much purchased for the explicit reason of trying">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-08-14T19:47:14-04:00">
+<meta property="article:tag" content="hacking">
+<meta property="article:tag" content="radio">
+<meta property="article:tag" content="SDR">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="../../pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Reverse Engineering a $20 remote controlled outlet</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-14T19:47:14-04:00" itemprop="datePublished" title="2021-08-14 19:47">2021-08-14 19:47</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <section id="introduction"><h2>Introduction</h2>
+<p>A few years ago, I bought a remote controlled outlet from Walmart.
+I don't recall the exact price, but it was less than $20.
+It was pretty much purchased for the explicit reason of trying to understand how they worked.
+The end goal, is that I wanted to know if</p>
+<ol class="arabic simple">
+<li><p>I could decode/intercept the signals</p></li>
+<li><p>It was vulnerable to replay attacks</p></li>
+</ol>
+<section id="tools-used"><h3>Tools Used</h3>
+<ul class="simple">
+<li><p>RTL SDR</p></li>
+<li><p>Yardstick One</p></li>
+<li><p>Inspectrum</p></li>
+<li><p>GQRX</p></li>
+<li><p>rfcat</p></li>
+</ul>
+<p>This is going to be quite a long post, so I suggest getting a cup of coffee before continuing.
+At the end, I have included a youtube video showing the entire process.</p>
+<!-- TEASER_END -->
+</section></section><section id="background-motivation"><h2>Background/Motivation</h2>
+<p>Every day, we are bombarded with wireless signals, and I like to know what they are.
+My passion for radios started very early on.
+When I was about 5 years old, I had a set of walkie talkies that had a "base station" with a large antenna.
+I believe operated on the 27 MHz band.
+My grandmother's cordless phone was also on the 27 MHz band, or was close enough.
+The first time I understood the power of radio was when I managed to listen to conversations.
+I couldn't quite make out all the words, but there was enough for me to figure out that I was listening to a phone call.
+In retrospect, I think the receive end of my walkie talkie was wide enough to get some of the signal from the phone.
+I managed to find a picture on the internet of what I had.</p>
+<p>So what does that have to do with remote controlled outlets?
+Well, it is simple.
+There are plenty of devices that operate on the ISM band that have no security controls.
+These radios are in everything from</p>
+<ul class="simple">
+<li><p>Garage door openers</p></li>
+<li><p>Home security systems</p></li>
+<li><p>Car remotes</p></li>
+<li><p>Weather stations</p></li>
+<li><p>Restaurant pagers</p></li>
+</ul>
+<p>Most of the functionality is undocumented.
+Some devices are more secure than others.
+For example, can additional functionality be gained by sending modified data packets, or is sensitive data leaked though these unsecured communications?</p>
+</section><section id="the-wireless-outlet"><h2>The wireless outlet</h2>
+<p>In order to understand how this system works, Let's look at the internals of the outlet and the remote.</p>
+<p>The outlet end is secured with 4 screws.
+The circuit board is pretty boring; a relay rated for 10A/240VAC, a DIP IC with "AUT980202-B", and a separate board soldered on at a right angle.
+The smaller board has the antenna connected to it (the blue coiled wire)
+I was unable to locate a datasheet for these components, but they are likely analog rf chips.
+The only interesting thing is that the remote and the outlet both have the same chip.</p>
+<p>Outlet and remote</p>
+<img alt="/images/rev_eng_outlet/remote_and_outlet.jpeg" src="../../images/rev_eng_outlet/remote_and_outlet.jpeg"><hr class="docutils">
+<p>The outlet board</p>
+<img alt="/images/rev_eng_outlet/outlet_board_front.jpeg" src="../../images/rev_eng_outlet/outlet_board_front.jpeg"><hr class="docutils">
+<p>The remote board</p>
+<img alt="/images/rev_eng_outlet/remote_internal.jpeg" src="../../images/rev_eng_outlet/remote_internal.jpeg"><hr class="docutils">
+<p>The datasheet wasn't really needed.
+The FCC ID printed on the remote is enough to find the testing documents.</p>
+<img alt="/images/rev_eng_outlet/remote_fccid.jpg" src="../../images/rev_eng_outlet/remote_fccid.jpg"><hr class="docutils">
+<p><a class="reference external" href="https://fccid.io/PAGTR-009-1B">fccid.io</a> (not affiliated with the FCC, just a more user friendly version)</p>
+<p>The FCC report reveals the device operates on 315 MHz.</p>
+<p>With that information, it is time to move on to actually looking at the signals.</p>
+</section><section id="capturing-the-waveform"><h2>Capturing the waveform</h2>
+<p>The first step is determining the modulation and data stream looks like.
+For that, I used my RTLSDR and GQRX to visualize the signal.</p>
+<img alt="/images/rev_eng_outlet/sig_capture.png" src="../../images/rev_eng_outlet/sig_capture.png"><hr class="docutils">
+<p>In that waterfall display, I clicked the on and off buttons several times.
+There is a little bit of a drift, but that can be ignored.</p>
+<p>Now the modulation must be determined</p>
+</section><section id="brief-primer-on-modulation-types"><h2>Brief primer on modulation types</h2>
+<section id="amplitude-shift-keying"><h3>Amplitude Shift Keying</h3>
+<p>Amplitude shift keying (ASK) is the simplest modulation.
+In this mode, the amplitude of the radio signal is modulated between 2 distinct amplitudes representing 0 and 1.
+Sometimes this alternates between 1 and 0.5, or directly between 0 and 1.
+The latter is referred to as On-Off Keying (OOK)
+This presents a major problem for low power radios: the further away from the transmitter, the signal decreases in amplitude.
+Far away, the 50% bit may be lower than the baseline RF noise.
+This is less of a concern for OOK.
+Personally, I have never encountered any ASK signals that are not OOK, but that doesn't mean they don't exist.</p>
+<p>More detailed information can be found on <a class="reference external" href="https://en.wikipedia.org/wiki/Amplitude-shift_keying">https://en.wikipedia.org/wiki/Amplitude-shift_keying</a></p>
+<img alt="/images/rev_eng_outlet/OOK-modulation.jpg" src="../../images/rev_eng_outlet/OOK-modulation.jpg"></section><hr class="docutils">
+<section id="frequency-shift-keying"><h3>Frequency Shift Keying</h3>
+<p>Frequency Shift Keying (FSK) is a bit different. ASK is similar to AM radio, FSK must be transmitted using FM.
+FSK is a bit like an additional layer on top of FM.
+FSK is identified by hearing 2^n distinct frequencies.
+The most common variations are 2FSK and 4FSK.
+As the name suggests, FSK shifts the frequency of the carrier wave between two distinct frequencies.
+FSK is often visually identifiable in a waterfall display because the frequency shift will be apparent.</p>
+<p>More detailed information can be found on <a class="reference external" href="https://en.wikipedia.org/wiki/Frequency-shift_keying">https://en.wikipedia.org/wiki/Frequency-shift_keying</a></p>
+<img alt="/images/rev_eng_outlet/FSK-modulation.jpg" src="../../images/rev_eng_outlet/FSK-modulation.jpg"><hr class="docutils">
+<p>Based on the waterfall from earlier, the remote is using amplitude shift keying.</p>
+</section></section><section id="decoding-the-signal"><h2>Decoding the signal</h2>
+<p>There are multiple ways of decoding the signal.
+All require capturing the signal, either as raw I/Q samples, or as an audio file.
+For ASK, GQRX can be put in AM receive mode and the audio stream can be saved as a .wav file.
+The .wav file can then be manually analyzed using Audacity.
+This is quite time consuming, but may be worthwhile as a learning exercise.
+The challenge is recovering the symbol rate of the data stream.</p>
+<p>I recorded the audio from two button presses (one on, one off).</p>
+<img alt="/images/rev_eng_outlet/on_off_press1.png" src="../../images/rev_eng_outlet/on_off_press1.png"><hr class="docutils">
+<p>This image shows the .wav file captured.
+Zooming in on the first burst, it is actually made up of several groups of pulses.</p>
+<img alt="/images/rev_eng_outlet/on_press1.png" src="../../images/rev_eng_outlet/on_press1.png"><hr class="docutils">
+<p>Further zooming in, it appears that each pulse group is identical.</p>
+<img alt="/images/rev_eng_outlet/on_press2.png" src="../../images/rev_eng_outlet/on_press2.png"><hr class="docutils">
+<p>There are two distinct amplitudes, low and high.
+The "on" time can be measured for each position, and then translated to 1's and 0's.
+This "on" time is used to calculate the symbol rate or baudrate.</p>
+<div class="math">
+\begin{equation*}
+symbolrate = \frac{1}{on time seconds}
+\end{equation*}
+</div>
+<p>Manually decoding is quite tedious, so instead <a class="reference external" href="https://github.com/miek/inspectrum">Inspectrum</a> will be used to do this.</p>
+<ul class="simple">
+<li><p>First, record the raw I/Q samples using GQRX and open the file in Inspectrum.</p></li>
+<li><p>Right click and add a "derived plot" of the amplitude.</p></li>
+<li><p>On the amplitude plot, right click and add a derived threshold plot.</p></li>
+<li><p>The min and max power sliders may need to be adjusted to get the intermediate plot to have the "on" amplitude above the dotted line.</p></li>
+<li><p>Click the "enable cursors" checkbox and move the vertical lines so the match the shortest "on" pulse.</p></li>
+<li><p>Some trial and error is required to get the timing to line up.</p></li>
+<li><p>The length of the data that is transmitted is unknown.</p></li>
+<li><p>This will typically be a multiple of 2.</p></li>
+<li><p>The dotted lines should match the entire data pulse.</p></li>
+<li><p>Some may hang over the end if the last transmission is a 1 followed by some 0's.</p></li>
+<li><p>The width of the cursor may need to be adjusted slightly to align the dashed lines.</p></li>
+<li><p>The final version should look like image below</p></li>
+</ul>
+<img alt="/images/rev_eng_outlet/inspectrum_final.png" src="../../images/rev_eng_outlet/inspectrum_final.png"><hr class="docutils">
+<p>The last piece of information needed is the symbol rate.
+Effectively, the symbol rate is how long the radio is on when transmitting a 1, or how long when sending a 0.
+This is calculated by Inspectrum, and is shown to the right in the above image.</p>
+<img alt="/images/rev_eng_outlet/inspectrum_detail.png" src="../../images/rev_eng_outlet/inspectrum_detail.png"><hr class="docutils">
+<p>The last step is to right click the threshold plot and choose "export".</p>
+<p>This process will need to be repeated for each signal that needs decoding.
+At least one group from the "on" button push and the "off" button push is required.
+Comparing successive "on" presses will confirm that no rolling code is in operation.</p>
+<p>The "on" data string is <code class="docutils literal">0x8ee8e88888e88888</code>.
+The "off" data string is <code class="docutils literal">0x8ee8e888888e8888</code>.
+Notice the 11th and 12th bits are transposed in the off command.</p>
+<p>With all of that information, it is time to move on to replaying the signal.</p>
+</section><section id="rfcat-and-the-yardstick-one"><h2>RfCat and the Yardstick One</h2>
+<p><a class="reference external" href="https://github.com/atlas0fd00m/rfcat">RfCat</a> is the "swiss-army knife of ISM band radio".
+RfCat requires sudo to run unless some udev rules are modified.</p>
+<p>The <a class="reference external" href="https://greatscottgadgets.com/yardstickone/">Yardstick One</a> was produced by Michael Ossman, and is based on the same chip found in the IM-ME toy and the ToorCon 14 badge.</p>
+<p>After launching rfcat from the command line, the interface is an ipython shell.</p>
+<p>To send the data decoded from the remote, the following code is used.</p>
+<pre class="literal-block">d.setFreq(314970000)
+d.setMdmModulation(MOD_ASK_OOK)
+d.setMdmSyncMode(0)
+d.setMdmDRate(1600) # baud rate from inspectrum
+def on():
+  d.RFxmit(b"\x8E\xE8\xE8\x88\x88\xE8\x88\x88\x00\x00" * 5)
+def off():
+  d.RFxmit(b"\x8E\xE8\xE8\x88\x88\x8E\x88\x88\x00\x00" * 5)</pre>
+<p>If a standalone script is preferred instead of having to configure rfcat each time, the following code can be run.</p>
+<pre class="literal-block"># outletOn.py
+from rflib import *
+
+d = RfCat(idx=0)
+
+d.setFreq(314970000)
+
+d.setMdmModulation(MOD_ASK_OOK)
+d.setMdmDRate(1600)
+d.setMdmSyncMode(0)
+
+def on():
+    d.RFxmit(b"\x8E\xE8\xE8\x88\x88\xE8\x88\x88\x00\x00" * 5)
+
+def off():
+    d.RFxmit(b"\x8E\xE8\xE8\x88\x88\x8E\x88\x88\x00\x00" * 5)
+
+
+on()</pre>
+<p>This will switch the outlet on when run from a terminal, ex; <code class="docutils literal">python outletOn.py</code>.
+The purpose of the two null bytes at the end <code class="docutils literal">0x00</code> is to give some space between successive transmissions.</p>
+<p>You may be wondering "why is the signal repeated multiple times?".
+This is a fair question, and the only answer I have is that it is done to ensure that the outlet is able to get a good decode when the button is pressed.
+There isn't much sophistication in these devices, and there is no sort of error correction, or checksum validation.</p>
+</section><section id="further-topics"><h2>Further topics</h2>
+<p>I have tried to figure out how URH (universal radio hacker) could be used.
+Unfortunately, I had a lot of trouble getting consistent results with my setup.
+If I didn't already know what I was looking for, I never would have gotten any meaningful results from URH.
+I don't blame the software, I either don't have good data to feed it or have some sort of setting wrong.</p>
+<p>Lastly, another piece of software <a class="reference external" href="https://github.com/merbanan/rtl_433">rtl_433</a> is a nifty tool to decode a lot of common consumer devices.
+Often, there is an additional application layer on top of the data recovered from the wireless signal (ex: how the temperature is encoded in binary, other payload positions, etc).</p>
+</section><section id="references"><h2>References</h2>
+<p>There has been a lot of work done by a lot of awesome people to make this process approachable and easy.</p>
+<ul class="simple">
+<li><p>Michael Ossman - Yardstick One</p></li>
+<li><p>atlas0fd00m - rfcat <a class="reference external" href="https://github.com/atlas0fd00m/rfcat">https://github.com/atlas0fd00m/rfcat</a></p></li>
+<li><p>The GNURadio project - <a class="reference external" href="https://github.com/gnuradio/gnuradio">https://github.com/gnuradio/gnuradio</a></p></li>
+<li><p>GQRX - <a class="reference external" href="https://github.com/csete/gqrx">https://github.com/csete/gqrx</a></p></li>
+<li><p>Inspectrum - <a class="reference external" href="https://github.com/miek/inspectrum">https://github.com/miek/inspectrum</a></p></li>
+</ul></section><section id="the-video"><h2>The video</h2>
+<p>First, I'd like to say that this is my first video ever, so it may not be as polished as it could have been.</p>
+<div class="youtube-video">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/wuwJutsM0-c?rel=0&amp;wmode=transparent" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+</div></section><section id="last-thoughts"><h2>Last thoughts</h2>
+<p>If you made it this far, congratulations.
+I'm happy to answer questions on twitter <a class="reference external" href="https://twitter.com/haicenhacks">https://twitter.com/haicenhacks</a></p>
+</section>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/hacking/" rel="tag">hacking</a></li>
+            <li><a class="tag p-category" href="../../categories/radio/" rel="tag">radio</a></li>
+            <li><a class="tag p-category" href="../../categories/sdr/" rel="tag">SDR</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../getting-started-with-the-proxmark3-easy-clone/" rel="prev" title="Getting started with the proxmark3 easy clone">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../zip-slip-malicious-archives/" rel="next" title="Zip Slip (malicious archives)">Next post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+        </script></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

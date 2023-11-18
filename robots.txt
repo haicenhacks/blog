@@ -1,0 +1,4 @@
+Sitemap: https://blog.haicen.me/sitemapindex.xml
+
+User-Agent: *
+Host: blog.haicen.me

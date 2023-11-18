@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>haicen.me (Posts about fun, php)</title><link>https://blog.haicen.me/</link><description></description><atom:link href="https://blog.haicen.me/categories/cat_fun-php.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:haicenhack@protonmail.com"&gt;Haicen&lt;/a&gt; </copyright><lastBuildDate>Sat, 18 Nov 2023 13:13:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Confusing script kiddies with random default server pages</title><link>https://blog.haicen.me/posts/confusing-script-kiddies-with-random-default-server-pages/</link><dc:creator>Haicen</dc:creator><description>&lt;p&gt;Anyone who runs a server connected to the internet can tell you that they get hammered all day every day by bots.
+Sometimes, a human is poking at things looking for vulnerable applications.
+Quite a while ago, I created a simple php script to randomly pretend to be one of the 3 web servers (Apache, Nginx, IIS).&lt;/p&gt;
+&lt;p&gt;Due to copyright, I am not sharing the source code from the html page for IIS.
+They are pretty easy to find without downloading/installing the package.
+The NGINX source is available on &lt;a class="reference external" href="https://github.com/nginx/nginx/blob/master/docs/html/index.html"&gt;Github&lt;/a&gt;
+I tried to find the one served by Apache2, but could not find the page I wanted.
+Fortunately, it happened to be available on one of my other servers so I just copied it over from there.&lt;/p&gt;
+&lt;p&gt;The php script is included below:&lt;/p&gt;
+&lt;script src="https://gist.github.com/49e8cca8f0a81c68c8f62e33a8d29d33.js"&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre class="literal-block"&gt;&amp;lt;?php
+// I'm not providing the iis_index.html file, but savvy users can figure out how to get a copy.
+// the other two are just the default pages you can find in either projects public code.
+// use case: confusing skids
+
+$i = rand(0, 2);
+switch ($i)
+{
+case 0:
+        //echo "nginx";
+        include "nginx.html";
+        break;
+case 1:
+        //echo "apache";
+        include "apache_index.html";
+        break;
+case 2:
+        //echo "IIS";
+        include "iis_index.html";
+        break;
+}
+?&amp;gt;&lt;/pre&gt;
+&lt;/noscript&gt;</description><guid>https://blog.haicen.me/posts/confusing-script-kiddies-with-random-default-server-pages/</guid><pubDate>Sat, 08 Jan 2022 22:58:02 GMT</pubDate></item></channel></rss>

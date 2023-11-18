@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>haicen.me (Posts about security)</title><link>https://blog.haicen.me/</link><description></description><atom:link href="https://blog.haicen.me/categories/security.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:haicenhack@protonmail.com"&gt;Haicen&lt;/a&gt; </copyright><lastBuildDate>Sat, 18 Nov 2023 13:13:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Getting started with the proxmark3 easy clone</title><link>https://blog.haicen.me/posts/getting-started-with-the-proxmark3-easy-clone/</link><dc:creator>Haicen</dc:creator><description>&lt;section id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;I've been interested in RFID hacking for a really long time.
+The "gold standard" has been the proxmark series of tools.
+Unfortunately, these are quite expensive, especially for a hobbyist.
+However, thanks to the internet and the usual sources, there are pre-assembled versions available for under $100.&lt;/p&gt;
+&lt;p&gt;In this post, I'll share a quick tutorial on how to clone an access control card to a rewriteable card.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.haicen.me/posts/getting-started-with-the-proxmark3-easy-clone/"&gt;Read more…&lt;/a&gt; (6 min remaining to read)&lt;/p&gt;&lt;/section&gt;</description><category>hacking</category><category>physical security</category><category>rfid</category><category>security</category><guid>https://blog.haicen.me/posts/getting-started-with-the-proxmark3-easy-clone/</guid><pubDate>Sat, 27 Mar 2021 13:08:06 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started with the proxmark3 easy clone | haicen.me</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/posts/getting-started-with-the-proxmark3-easy-clone/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Haicen">
+<link rel="prev" href="../auditing-a-security-camera-dvr-system/" title="Auditing a $50 Security Camera DVR System" type="text/html">
+<link rel="next" href="../reverse-engineering-a-20-remote-controlled-outlet/" title="Reverse Engineering a $20 remote controlled outlet" type="text/html">
+<meta property="og:site_name" content="haicen.me">
+<meta property="og:title" content="Getting started with the proxmark3 easy clone">
+<meta property="og:url" content="https://blog.haicen.me/posts/getting-started-with-the-proxmark3-easy-clone/">
+<meta property="og:description" content="Introduction
+I've been interested in RFID hacking for a really long time.
+The &quot;gold standard&quot; has been the proxmark series of tools.
+Unfortunately, these are quite expensive, especially for a hobbyist">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-03-27T09:08:06-04:00">
+<meta property="article:tag" content="hacking">
+<meta property="article:tag" content="physical security">
+<meta property="article:tag" content="rfid">
+<meta property="article:tag" content="security">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="../../pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Getting started with the proxmark3 easy clone</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-27T09:08:06-04:00" itemprop="datePublished" title="2021-03-27 09:08">2021-03-27 09:08</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <section id="introduction"><h2>Introduction</h2>
+<p>I've been interested in RFID hacking for a really long time.
+The "gold standard" has been the proxmark series of tools.
+Unfortunately, these are quite expensive, especially for a hobbyist.
+However, thanks to the internet and the usual sources, there are pre-assembled versions available for under $100.</p>
+<p>In this post, I'll share a quick tutorial on how to clone an access control card to a rewriteable card.</p>
+<!-- TEASER_END -->
+</section><section id="the-hardware"><h2>The Hardware</h2>
+<p>The hardware I'm using was purchased from Amazon for $67.
+I don't know what firmware was loaded on it, because it didn't seem to work initially.
+The first thing I did was clone the <a class="reference external" href="https://github.com/RfidResearchGroup/proxmark3">RFID Research Group</a> repository (sometimes known as the iceman repository).
+This contains both the proxmark software and the firmware for the device.
+The firmware is loaded by running <code class="docutils literal"><span class="pre">./pm3-flash-all</span></code> in the repository after building.
+One issue is that the USB port on the long side of the device does not seem to work.
+I didn't take any notes nor do I remember the exact process I followed, but I think it was pretty straight forward once it was actually speaking with my computer.
+I'm assuming that is for powering the device with something that can deliver more current than a standard USB port.</p>
+<img alt="/images/rfid_getting_started/device_edited.jpeg" src="../../images/rfid_getting_started/device_edited.jpeg"><hr class="docutils">
+<p>I know there are supposed to be different modes to select, such as replaying cards that can be done without being connected to a computer, but I have not figured any of this out yet.
+I also have no idea what the LED's mean.
+If you know or have details on how to configure those features, please contact me via twitter <a class="reference external" href="https://twitter.com/haicenhacks">@haicenhacks</a>.</p>
+</section><section id="the-software"><h2>The Software</h2>
+<p>The proxmark software can be run by simply launching from the terminal.</p>
+<p><code class="docutils literal">proxmark3 /dev/ttyACM0</code></p>
+<p>Note that you may need to assign the correct permissions to your user account to enable access to tty devices.
+For arch linux, this is accomplished by <code class="docutils literal">sudo usermod <span class="pre">-aG</span> uucp &lt;username&gt;</code>. <a class="reference external" href="https://wiki.archlinux.org/title/Users_and_groups">Arch Wiki</a>.
+For other operating systems, I believe this is accomplished by <code class="docutils literal">sudo usermod <span class="pre">-aG</span> dialout &lt;username&gt;</code>.
+You will need to fully log out or restart for those changes to take effect.</p>
+<p>Once everything is open, the screen should look like this:</p>
+<img alt="/images/rfid_getting_started/pm3_first_run.png" src="../../images/rfid_getting_started/pm3_first_run.png"><hr class="docutils">
+<p>Great, so now that everything is configured, it is time to start investigating card types.</p>
+</section><section id="identifying-the-card-type"><h2>Identifying the card type</h2>
+<p>Before a card can be cloned, it must first be determined if it is even possible to clone.
+Some card types, such as the MiFare DESfire EV1 have strong cryptographic protection.
+Attacks on such cards are way out of my league.
+I have only experimented with HID and EM410x cards.</p>
+<p>Step one is to figure out if the card is 125 KHz (lf) or 13.56 MHz (hf).</p>
+<p><code class="docutils literal">hf search</code> will search for hf cards</p>
+<p>If <code class="docutils literal">hf search</code> is run when the card is actually an lf card, it will display <code class="docutils literal">[!] ⚠️  No known/supported 13.56 MHz tags found</code></p>
+<img alt="/images/rfid_getting_started/hf_lf_search1.png" src="../../images/rfid_getting_started/hf_lf_search1.png"><hr class="docutils">
+<p>However, if we run <code class="docutils literal">lf search</code> on the same card, it will return the following result:</p>
+<img alt="/images/rfid_getting_started/lf_search1.png" src="../../images/rfid_getting_started/lf_search1.png"><hr class="docutils">
+<p>This shows a HID Prox card.</p>
+<p>Running the command again with a different card type shows an EM410x card</p>
+<img alt="/images/rfid_getting_started/lf_search2.png" src="../../images/rfid_getting_started/lf_search2.png"><hr class="docutils">
+<p>Because basic HID and EM410 cards do not employ any cryptographic protection, all that is needed to clone them is a single scan.
+Most techniques for obtaing the card to scan are done using social engineering or other means.
+This was shown on Mr. Robot Season 1 Episode 5.
+On some HID cards, the card number is printed on the back of the card.
+However, the facility code is not, and both pieces are required to clone a working card.
+In "dumb" card reader systems, the facility code may be brute forceable, since it is only 3 digits.
+More sophisiticated systems may lock out the reader if too many attempts are made.
+There are other techniques, such as the BLE key  <a class="reference external" href="https://github.com/linklayer/blekey">Github</a>, and <a class="reference external" href="https://www.youtube.com/watch?v=3QK3LoovWxo">Blackhat</a>, which requires physical access to the card reader.</p>
+<p>All the information needed to clone the card is printed by the command that was just run, but a physical card is needed to clone it to.
+The T5577 card is a rewriteable card that can emulate HID, EM410x, Indala and a few others.
+These can be purchased multiple places, including <a class="reference external" href="https://redteamtools.com/electronic-attacks/access-control-RFID/T5577-rewritable-RFID-card">Red Team Tools</a>, Amazon, etc.
+This type of card may also be referred to as a "magic" card for the hf versions (MiFare 1k)</p>
+<p>Recall that the card we are cloning has the following data</p>
+<pre class="literal-block">[+] [H10301] - HID H10301 26-bit;  FC: 0  CN: 5381    parity: valid
+[=] raw: 000000000000002006002a0b</pre>
+<p>The command to clone the card is <code class="docutils literal">lf hid clone <span class="pre">-w</span> H10301 <span class="pre">--fc</span> 0 <span class="pre">--cn</span> 5381</code></p>
+<p>The following sequence is all done with the same card.</p>
+<p>Read what is currently on the T5577 card</p>
+<pre class="literal-block">[usb] pm3 --&gt; lf hid reader
+[+] [H10301] - HID H10301 26-bit;  FC: 118  CN: 6969    parity: valid
+[=] raw: 000000000000002004ec3672</pre>
+<p>Now write the data of the card to be cloned</p>
+<pre class="literal-block">[usb] pm3 --&gt; lf hid clone -w H10301 --fc 0 --cn 5381
+[=] Preparing to clone HID tag
+[+] [H10301] - HID H10301 26-bit;  FC: 0  CN: 5381    parity: valid
+[=] Done
+[?] Hint: try `lf hid reader` to verify</pre>
+<p>Note that <code class="docutils literal">lf hid clone <span class="pre">-w</span> H10301 <span class="pre">--fc</span> 0 <span class="pre">--cn</span> 5381</code> is the same as <code class="docutils literal">lf hid clone <span class="pre">-r</span> 2006002a0b</code>.
+If you had access to a "guest" badge, you could determine the facility code and then brute force or guess valid card numbers.</p>
+<p>That's all there is to it. The T5577 card has been rewritten and appears to the reader as if it is identical as the previous card.</p>
+<pre class="literal-block">[usb] pm3 --&gt; lf hid reader
+[+] [H10301] - HID H10301 26-bit;  FC: 0  CN: 5381    parity: valid
+[=] raw: 000000000000002006002a0b</pre>
+<p>The process is similar for EM410x cards.
+I don't have any other cards to experiment with at the moment.</p>
+<p>Hopefully this is helpful to someone else.</p>
+</section>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/hacking/" rel="tag">hacking</a></li>
+            <li><a class="tag p-category" href="../../categories/physical-security/" rel="tag">physical security</a></li>
+            <li><a class="tag p-category" href="../../categories/rfid/" rel="tag">rfid</a></li>
+            <li><a class="tag p-category" href="../../categories/security/" rel="tag">security</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../auditing-a-security-camera-dvr-system/" rel="prev" title="Auditing a $50 Security Camera DVR System">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../reverse-engineering-a-20-remote-controlled-outlet/" rel="next" title="Reverse Engineering a $20 remote controlled outlet">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

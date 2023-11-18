@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>haicen.me (Posts about SDR)</title><link>https://blog.haicen.me/</link><description></description><atom:link href="https://blog.haicen.me/categories/sdr.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:haicenhack@protonmail.com"&gt;Haicen&lt;/a&gt; </copyright><lastBuildDate>Sat, 18 Nov 2023 13:13:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Reverse Engineering a $20 remote controlled outlet</title><link>https://blog.haicen.me/posts/reverse-engineering-a-20-remote-controlled-outlet/</link><dc:creator>Haicen</dc:creator><description>&lt;section id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;A few years ago, I bought a remote controlled outlet from Walmart.
+I don't recall the exact price, but it was less than $20.
+It was pretty much purchased for the explicit reason of trying to understand how they worked.
+The end goal, is that I wanted to know if&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;p&gt;I could decode/intercept the signals&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;It was vulnerable to replay attacks&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;section id="tools-used"&gt;
+&lt;h3&gt;Tools Used&lt;/h3&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;RTL SDR&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Yardstick One&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Inspectrum&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;GQRX&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;rfcat&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is going to be quite a long post, so I suggest getting a cup of coffee before continuing.
+At the end, I have included a youtube video showing the entire process.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.haicen.me/posts/reverse-engineering-a-20-remote-controlled-outlet/"&gt;Read more…&lt;/a&gt; (12 min remaining to read)&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;</description><category>hacking</category><category>radio</category><category>SDR</category><guid>https://blog.haicen.me/posts/reverse-engineering-a-20-remote-controlled-outlet/</guid><pubDate>Sat, 14 Aug 2021 23:47:14 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dumping chrome passwords using pypykatz | haicen.me</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://blog.haicen.me/posts/dumping-chrome-passwords-using-pypykatz/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Haicen">
+<link rel="prev" href="../xss-ssti-in-flask/" title="XSS and SSTI in Flask" type="text/html">
+<link rel="next" href="../cyber-apocalypse-2022-blinkerfluids/" title="Cyber Apocalypse 2022 - Blinkerfluids" type="text/html">
+<meta property="og:site_name" content="haicen.me">
+<meta property="og:title" content="Dumping chrome passwords using pypykatz">
+<meta property="og:url" content="https://blog.haicen.me/posts/dumping-chrome-passwords-using-pypykatz/">
+<meta property="og:description" content="I recently competed in the Cyber Apocalypse 2022 CTF on Hackthebox.
+This was a really fun experience (and my first ever live CTF).
+I only solved a few challenges (which I'll be writing in subsequent p">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-05-30T09:27:07-04:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://blog.haicen.me/">
+
+                <span id="blog-title">haicen.me</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+                </li>
+<li>
+<a href="../../pages/about-me">Contact Me</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Dumping chrome passwords using pypykatz</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Haicen
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2022-05-30T09:27:07-04:00" itemprop="datePublished" title="2022-05-30 09:27">2022-05-30 09:27</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>I recently competed in the Cyber Apocalypse 2022 CTF on Hackthebox.
+This was a really fun experience (and my first ever live CTF).
+I only solved a few challenges (which I'll be writing in subsequent posts), but there was one vexating challenge which I wasn't able to complete.
+I kinda had the right idea, but I was missing some key pieces of information.
+The point of this post is to explain what I was missing and how it works (and to document how I would have done it).</p>
+<p>This particular challenge was called "Siezed"</p>
+<p>The challenge description read</p>
+<blockquote>
+<p>Miyuki is now after a newly formed ransomware division which works for Longhir. This division's goal is to target any critical infrastructure and cause financial losses to their opponents. They never restore the encrypted files, even if the victim pays the ransom. This case is the number one priority for the team at the moment. Miyuki has seized the hard-drive of one of the members and it is believed that inside of which there may be credentials for the Ransomware's Dashboard. Given the AppData folder, can you retrieve the wanted credentials?</p>
+</blockquote>
+<p>A zip file was provided which contained the full AppData from a windows user.
+Based on the description, I felt like all I needed to do was search for and extract the browser's saved passwords.</p>
+<!-- TEASER_END -->
+<p>Google Chrome stores saved passwords in 2 locations:</p>
+<p><code class="docutils literal">AppData/Local/Google/Chrome/User Data/Default/Login Data` or `AppData/Local/Google/Chrome/User <span class="pre">Data/&lt;profile</span> <span class="pre">name&gt;/Login</span> Data</code></p>
+<p>I didn't see evidence of any other profiles, so I started looking in Default.
+Open the 'Login Data' file with sqlite</p>
+<pre class="literal-block">sqlite&gt; .mode json
+sqlite&gt; select * from logins;
+[{
+  "origin_url": "https://windowsliveupdater.com/",
+  "action_url": "https://windowsliveupdater.com/",
+  "username_element": "mat-input-0",
+  "username_value": "ransomoperator@draeglocker.com",
+  "password_element": "mat-input-1",
+  "password_value": "v10TK�Wzk\u0001]%\n+��䋼iܙdOm�JF�*|:�\f0\u0017\n/M�u0000R",
+  "submit_element": "",
+  "signon_realm": "https://windowsliveupdater.com/",
+  "date_created": 13292435735835041,
+  "blacklisted_by_user": 0,
+  "scheme": 0,
+  "password_type": 0,
+  "times_used": 0,
+  "form_data": "&lt;snip&gt;",
+  "display_name": "",
+  "icon_url": "",
+  "federation_url": "",
+  "skip_zero_click": 0,
+  "generation_upload_status": 0,
+  "possible_username_pairs": "\u0000\u0000\u0000\u0000",
+  "id": 1,
+  "date_last_used": 13292435729963090,
+  "moving_blocked_for": "\u0000\u0000\u0000\u0000",
+  "date_password_modified": 13292435735835381
+}]</pre>
+<p>So there's a password here, but it's encrypted.
+Bummer.</p>
+<p>This is where I gave up, because I didn't know how to break this encryption, and didn't even really know what I was looking at.
+After looking at writeups from other users after the CTF was over, I learned that this is ecrypted using <a class="reference external" href="https://support.microsoft.com/en-us/topic/bf374083-626f-3446-2a9d-3f6077723a60">DPAPI</a>.</p>
+<p>john can be used to crack the password, it just needs to know the SID and the path to the master key certificate.
+The SID can be found in <code class="docutils literal">AppData\Roaming\Microsoft\Protect\</code>, and it is <code class="docutils literal"><span class="pre">S-1-5-21-3702016591-3723034727-1691771208-1002</span></code>.
+The master key</p>
+<p>Browsing the directory, there are a few files here, but I don't immediately know which one is the right one.</p>
+<pre class="literal-block">AppData/Roaming/Microsoft/Protect/
+|-- CREDHIST
+`-- S-1-5-21-3702016591-3723034727-1691771208-1002
+  |-- 865be7a6-863c-4d73-ac9f-233f8734089d (486 bytes)
+  `-- Preferred (24 bytes)</pre>
+<p>Based on the file sizes, I guessed that the <code class="docutils literal"><span class="pre">865be7a6-863c-4d73-ac9f-233f8734089d</span></code> file would be the one.
+Use DPAPImk2john to extract the master key certificate to a format that can be cracked <em>must use python 2 venv</em>.
+<code class="docutils literal">DPAPImk2john <span class="pre">-S</span> <span class="pre">S-1-5-21-3702016591-3723034727-1691771208-1002</span> <span class="pre">-mk</span> <span class="pre">AppData/Roaming/Microsoft/Protect/S-1-5-21-3702016591-3723034727-1691771208-1002/865be7a6-863c-4d73-ac9f-233f8734089d</span> <span class="pre">-c</span> local &gt; /hash.txt</code></p>
+<pre class="literal-block">$DPAPImk$2*1*S-1-5-21-3702016591-3723034727-1691771208-1002*aes256*sha512*8000*a17612a0ebdfc203316e0c18c04729f1*288*7dd629ab5efc8442596e5fbe5b9fc695bf8a51384dfacabd7a1a214245f894383540eb3e00c009bd76f836ae991cef540d74c0a6a31527b7e1df4b0d55a6760e41271f3dcaad163a6fb648f898281424728485335676c0374735cab055088e66bc55a72fc2087d64038d1d716f5efd4bdd4ce19971d082db004a36de70c351a2bd9b6ba9cf8f89a7481150b26f5808bc</pre>
+<p>Crack the file <code class="docutils literal">john <span class="pre">--wordlist=/usr/share/wordlists/rockyou.txt</span> ./hash.txt</code>.
+The password is <code class="docutils literal">ransom</code></p>
+<p>Since this encryption relies on windows encryption, mimikatz would be the best tool, but I don't have access to a windows computer to be able to run it.
+Instead, I'll use something called <a class="reference external" href="https://github.com/skelsec/pypykatz">pypykatz</a> which is a python implementation of mimikatz.
+This allows offline attacks from my linux system.</p>
+<p>The first step is to generate the prekey files using the SID and password.</p>
+<p><code class="docutils literal">pypykatz dpapi prekey password <span class="pre">'S-1-5-21-3702016591-3723034727-1691771208-1002'</span> 'ransom' <span class="pre">-o</span> key</code></p>
+<p>Next, the master key itself needs to be extracted from the certificate.</p>
+<p><code class="docutils literal">pypykatz dpapi masterkey <span class="pre">AppData/Roaming/Microsoft/Protect/S-1-5-21-3702016591-3723034727-1691771208-1002/865be7a6-863c-4d73-ac9f-233f8734089d</span> key <span class="pre">-o</span> masterkey</code></p>
+<p>Finally, the chrome submodule can decrypt the credential files using</p>
+<p><code class="docutils literal">pypykatz dpapi chrome ./masterkey AppData/Local/Google/Chrome/User\ Data/Local\ State <span class="pre">--logindata</span> AppData/Local/Google/Chrome/User\ Data/Default/Login\ Data</code></p>
+<p>This gives the flag for the challenge.</p>
+<p><code class="docutils literal">file: AppData/Local/Google/Chrome/User Data/Default/Login Data user: &lt;username&gt; pass: b'HTB{fake_flag}' url: &lt;redacted url&gt;</code></p>
+<p>I admit, I still don't have a great understanding of how this works, but I'll explain what I do know.
+There is a json key</p>
+<pre class="literal-block">"os_crypt": {
+    "encrypted_key": "RFBBUEkBAAAA0Iyd3wEV0RGMegDAT8KX6wEAAACm51uGPIZzTayfIz+HNAidAAAAAAIAAAAAABBmAAAAAQAAIAAAACc7RsTHfaauxrhBBjIqqmhrpu4YgBuonvNnS6mwHh46AAAAAA6AAAAAAgAAIAAAAL/cUy0IhgQQbDrc+KvOqsr+VCQsd9QUwZOC0v962Hf0MAAAAEHBCEaKa1Z9JzasA7wpTHI5PjeCJgrNbSTeklRxKbLst8qd8SnSo9hCOn5xwIOhwkAAAAA6QhhJeJDGW4UU26/TX3q4czhgLkuzjqXFgeH+CHdrTLjkK90vaEpXJerbw41eqFYSlsouQspBo/5R0HYeX295"
+  }</pre>
+<p>in the local state.</p>
+<p>That is a base64 encoded string.
+The first 5 characters are DPAPI, and the rest are non-printable.
+From reading the code in pypykatz, it seems that this key a blob encrypted with the DPAPI key.</p>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../xss-ssti-in-flask/" rel="prev" title="XSS and SSTI in Flask">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../cyber-apocalypse-2022-blinkerfluids/" rel="next" title="Cyber Apocalypse 2022 - Blinkerfluids">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2023         <a href="mailto:haicenhack@protonmail.com">Haicen</a> 
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>
