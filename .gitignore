@@ -2,3 +2,4 @@ cache/*
 output/*
 *.db
 __pycache__/*
+.doit.db.*
